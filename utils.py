@@ -1,29 +1,46 @@
 import os
 import sys
 import subprocess
+import shutil
+from pathlib import Path
+
+
+def _application_root():
+    if getattr(sys, "frozen", False):
+        return Path(sys._MEIPASS)
+    return Path(__file__).resolve().parent
+
 
 def resource_path(relative_path):
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-    return os.path.join(base_path, relative_path)
+    return str(_application_root() / relative_path)
+
+
+def _resolve_ffmpeg_binary(binary_name):
+    exe = f"{binary_name}.exe" if os.name == "nt" else binary_name
+    env_override = os.environ.get(f"{binary_name.upper()}_PATH")
+    if env_override and Path(env_override).is_file():
+        return str(Path(env_override))
+    bundle_candidate = _application_root() / "ffmpeg-bin" / exe
+    if bundle_candidate.is_file():
+        return str(bundle_candidate)
+    system_candidate = shutil.which(exe)
+    if system_candidate:
+        return system_candidate
+    raise FileNotFoundError(f"{exe} not found. Expected it at {bundle_candidate}")
+
+
+
+def format_for_ffmpeg_concat(path: str) -> str:
+    formatted = Path(path).resolve().as_posix()
+    return formatted.replace("'", "'\\''")
 
 def get_ffmpeg_path():
-    exe = "ffmpeg.exe" if os.name == "nt" else "ffmpeg"
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-    return os.path.join(base_path, "ffmpeg-bin", exe)
+    return _resolve_ffmpeg_binary("ffmpeg")
+
 
 def get_ffprobe_path():
-    exe = "ffprobe.exe" if os.name == "nt" else "ffprobe"
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-    return os.path.join(base_path, "ffmpeg-bin", exe)
+    return _resolve_ffmpeg_binary("ffprobe")
+
 
 def get_video_resolution(filepath):
     ffprobe_path = get_ffprobe_path()
@@ -40,6 +57,7 @@ def get_video_resolution(filepath):
     except Exception:
         pass
     return ""
+
 
 def get_video_duration(filepath):
     ffprobe_path = get_ffprobe_path()
@@ -61,6 +79,7 @@ def get_video_duration(filepath):
             f.write(f"\nEXC for {filepath}: {e}\n")
         return 0.0
 
+
 def concat_and_trim_videos(file_list, output_path, duration_sec=120):
     ffmpeg_path = get_ffmpeg_path()
     import tempfile
@@ -68,7 +87,7 @@ def concat_and_trim_videos(file_list, output_path, duration_sec=120):
         list_file_path = os.path.join(tmpdir, "files.txt")
         with open(list_file_path, "w", encoding="utf-8") as f:
             for file in file_list:
-                f.write(f"file '{file}'\n")
+                f.write(f"file '{format_for_ffmpeg_concat(file)}'\n")
         merged_path = os.path.join(tmpdir, "merged.mp4")
         cmd_concat = [
             ffmpeg_path, "-y", "-f", "concat", "-safe", "0",
@@ -94,6 +113,7 @@ def concat_and_trim_videos(file_list, output_path, duration_sec=120):
         if result_trim.returncode != 0:
             raise RuntimeError(f"Error during trimming:\n{result_trim.stderr}")
 
+
 def ensure_folder_for_export(first_file_path, folder_name=None):
     base_dir = os.path.dirname(first_file_path)
     if folder_name:
@@ -101,6 +121,7 @@ def ensure_folder_for_export(first_file_path, folder_name=None):
         os.makedirs(folder, exist_ok=True)
         return folder
     return base_dir
+
 
 def safe_filename(name):
     return "".join(c for c in name if c.isalnum() or c in ('_', '-', ' ')).rstrip()

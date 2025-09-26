@@ -7,7 +7,8 @@ from utils import (
     concat_and_trim_videos,
     ensure_folder_for_export,
     safe_filename,
-    get_ffmpeg_path
+    get_ffmpeg_path,
+    format_for_ffmpeg_concat
 )
 
 class FileItem(tk.Frame):
@@ -134,7 +135,7 @@ class BaseCompilationFrame(ttk.LabelFrame):
                 concat_list = os.path.join(tmpdir, "files.txt")
                 with open(concat_list, "w", encoding="utf-8") as f:
                     for video_path in self.files:
-                        f.write(f"file '{video_path}'\n")
+                        f.write(f"file '{format_for_ffmpeg_concat(video_path)}'\n")
                 ffmpeg_path = get_ffmpeg_path()
                 cmd = [
                     ffmpeg_path, "-y", "-f", "concat", "-safe", "0",
@@ -146,6 +147,7 @@ class BaseCompilationFrame(ttk.LabelFrame):
                 if result.returncode != 0:
                     with open(os.path.join(out_dir, "tips_export_error.log"), "w", encoding="utf-8") as logf:
                         logf.write(f"CMD: {' '.join(cmd)}\n")
+                        logf.write(f"RET: {result.returncode}\n")
                         logf.write(f"STDOUT:\n{result.stdout}\n\nSTDERR:\n{result.stderr}")
                     return False
             return True
@@ -266,7 +268,7 @@ class SequenceCompilationFrame(BaseCompilationFrame):
                 concat_list = os.path.join(tmpdir, "files.txt")
                 with open(concat_list, "w", encoding="utf-8") as f:
                     for video_path in self.files:
-                        f.write(f"file '{video_path}'\n")
+                        f.write(f"file '{format_for_ffmpeg_concat(video_path)}'\n")
                 ffmpeg_path = get_ffmpeg_path()
                 cmd = [
                     ffmpeg_path, "-y", "-f", "concat", "-safe", "0",
@@ -278,6 +280,7 @@ class SequenceCompilationFrame(BaseCompilationFrame):
                 if result.returncode != 0:
                     with open(os.path.join(out_dir, "sequence_export_error.log"), "w", encoding="utf-8") as logf:
                         logf.write(f"CMD: {' '.join(cmd)}\n")
+                        logf.write(f"RET: {result.returncode}\n")
                         logf.write(f"STDOUT:\n{result.stdout}\n\nSTDERR:\n{result.stderr}")
                     return False
             return True
