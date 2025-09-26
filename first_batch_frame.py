@@ -1,6 +1,6 @@
 from compilations import (
     ScrollableFrame, CompilationFrame, SequenceCompilationsManager,
-    get_video_duration
+    get_video_duration, FileItem
 )
 from tkinter import ttk, messagebox, filedialog
 import tkinter as tk
@@ -34,6 +34,8 @@ class FirstBatchFrame(ttk.Frame):
         self.global_resolution_ref = {"value": None}
         self.compilations = []
         self.hooks_compilations = []
+        self.intro_files = []
+        self._intro_file_items = []
 
         ttk.Label(left_col, text="Load Tips:").pack(anchor="w", padx=5, pady=(5,0))
         ttk.Button(left_col, text="Load Tips Files", command=self.load_tips_files).pack(padx=5, pady=5)
@@ -47,6 +49,12 @@ class FirstBatchFrame(ttk.Frame):
         ttk.Button(left_col, text="Add empty Hooks compilation", command=self.add_empty_hooks_compilation).pack(padx=5, pady=(0,5))
         self.container_hooks = ScrollableFrame(left_col)
         self.container_hooks.pack(fill="both", expand=True, padx=5, pady=5)
+
+        ttk.Separator(left_col, orient="horizontal").pack(fill="x", pady=10)
+        ttk.Label(left_col, text="Load Intros:").pack(anchor="w", padx=5, pady=(5,0))
+        ttk.Button(left_col, text="Load Intro Files", command=self.load_intro_files).pack(padx=5, pady=5)
+        self.container_intros = ScrollableFrame(left_col)
+        self.container_intros.pack(fill="both", expand=True, padx=5, pady=5)
 
         export_frame = ttk.Frame(left_col)
         export_frame.pack(fill="x", pady=(12, 0))
@@ -62,7 +70,8 @@ class FirstBatchFrame(ttk.Frame):
             get_global_resolution_ref=lambda: self.global_resolution_ref,
             get_hooks_compilations=lambda: self.hooks_compilations,
             get_tips_compilations=lambda: self.compilations,
-            get_project_code=self.get_project_code
+            get_project_code=self.get_project_code,
+            get_intro_files=lambda: self.intro_files
         )
 
         # --- DODAJ TO: --- (po sequence_manager!)
@@ -147,6 +156,55 @@ class FirstBatchFrame(ttk.Frame):
         self.update_compilation_numbers()
         self.sequence_manager.load_sequences()
 
+    def load_intro_files(self):
+        filepaths = filedialog.askopenfilenames(filetypes=[("Video files", "*.mp4 *.mov *.mkv *.avi *.flv *.wmv")])
+        if not filepaths:
+            return
+        self.intro_files = [os.path.abspath(fp) for fp in filepaths]
+        self._refresh_intro_items()
+        self.sequence_manager.load_sequences()
+
+    def _refresh_intro_items(self):
+        for item in self._intro_file_items:
+            item.destroy()
+        self._intro_file_items = []
+        for idx, path in enumerate(self.intro_files):
+            item = FileItem(
+                self.container_intros.scrollable_frame,
+                path,
+                lambda i=idx: self.move_intro_up(i),
+                lambda i=idx: self.move_intro_down(i),
+                lambda i=idx: self.delete_intro(i)
+            )
+            item.grid(row=idx, column=0, sticky="w")
+            self._intro_file_items.append(item)
+
+    def move_intro_up(self, index):
+        if index > 0:
+            self.intro_files[index - 1], self.intro_files[index] = self.intro_files[index], self.intro_files[index - 1]
+            self._refresh_intro_items()
+            self.sequence_manager.load_sequences()
+
+    def move_intro_down(self, index):
+        if index < len(self.intro_files) - 1:
+            self.intro_files[index + 1], self.intro_files[index] = self.intro_files[index], self.intro_files[index + 1]
+            self._refresh_intro_items()
+            self.sequence_manager.load_sequences()
+
+    def delete_intro(self, index):
+        if 0 <= index < len(self.intro_files):
+            del self.intro_files[index]
+            self._refresh_intro_items()
+            self.sequence_manager.load_sequences()
+
+    def clear_intro_files(self, trigger_reload=True):
+        if not self.intro_files and not self._intro_file_items:
+            return
+        self.intro_files = []
+        self._refresh_intro_items()
+        if trigger_reload:
+            self.sequence_manager.load_sequences()
+
     def sync_hooks_with_tips1(self):
         if not self.compilations:
             return
@@ -164,6 +222,7 @@ class FirstBatchFrame(ttk.Frame):
             comp.destroy()
         self.compilations.clear()
         self.hooks_compilations.clear()
+        self.clear_intro_files(trigger_reload=False)
         self.global_resolution_ref["value"] = None
         self.update_compilation_numbers()
         self.sequence_manager.load_sequences()

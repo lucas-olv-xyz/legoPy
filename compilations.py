@@ -287,12 +287,13 @@ class SequenceCompilationFrame(BaseCompilationFrame):
             return False
 
 class SequenceCompilationsManager:
-    def __init__(self, parent, get_global_resolution_ref, get_hooks_compilations, get_tips_compilations, get_project_code):
+    def __init__(self, parent, get_global_resolution_ref, get_hooks_compilations, get_tips_compilations, get_project_code, get_intro_files=None):
         self.parent = parent
         self.get_global_resolution_ref = get_global_resolution_ref
         self.get_hooks_compilations = get_hooks_compilations
         self.get_tips_compilations = get_tips_compilations
         self.get_project_code = get_project_code
+        self.get_intro_files = get_intro_files or (lambda: [])
         self.sequence_frames = []
         self.progress_var = tk.DoubleVar()
 
@@ -310,9 +311,16 @@ class SequenceCompilationsManager:
         self.btn_export_sequences = ttk.Button(export_frame, text="Export Sequence Compilations", command=self.export_sequences)
         self.btn_export_sequences.pack(anchor="center")
 
+    def _build_sequence_name(self, variant_idx, hook_idx, intro_idx=None):
+        project_code = self.get_project_code() or "E000"
+        descriptor = f"V{variant_idx}H{hook_idx}"
+        if intro_idx is not None:
+            descriptor += f"I{intro_idx}"
+        return f"{project_code}_{descriptor}_T_EN"
+
     def add_empty_sequence(self):
         idx = len(self.sequence_frames)
-        name = f"{self.get_project_code()}V{idx}H0"
+        name = self._build_sequence_name(idx, 0)
         seq = SequenceCompilationFrame(
             self.container_sequences.scrollable_frame,
             index=idx,
@@ -331,7 +339,7 @@ class SequenceCompilationsManager:
         frame.destroy()
         self.sequence_frames.pop(idx)
         for i, seq in enumerate(self.sequence_frames):
-            seq.set_name(f"{self.get_project_code()}V{i}H0")
+            seq.set_name(self._build_sequence_name(i, 0))
 
     def duplicate_sequence(self, frame):
         idx = self.sequence_frames.index(frame)
@@ -341,8 +349,8 @@ class SequenceCompilationsManager:
             on_delete_callback=self.remove_sequence,
             duplicate_callback=self.duplicate_sequence,
             allow_rename=True,
-            name=f"{self.get_project_code()}V{idx+1}H0",
-            files=frame.files,
+            name=self._build_sequence_name(idx + 1, 0),
+            files=frame.files.copy(),
             export_checkbox=True
         )
         new_frame.pack_forget()
@@ -351,7 +359,7 @@ class SequenceCompilationsManager:
             cf.pack_forget()
             cf.pack(fill="x", pady=5)
         for i, seq in enumerate(self.sequence_frames):
-            seq.set_name(f"{self.get_project_code()}V{i}H0")
+            seq.set_name(self._build_sequence_name(i, 0))
 
     def load_sequences(self):
         for frame in getattr(self, "sequence_frames", []):
@@ -360,31 +368,24 @@ class SequenceCompilationsManager:
 
         tips_compilations = self.get_tips_compilations()
         hooks_compilations = self.get_hooks_compilations()
-        project_code = self.get_project_code() or "E000"
+        intro_files = list(self.get_intro_files() or [])
 
-        if tips_compilations and tips_compilations[0].files:
-            seq_name = f"{project_code}V0H0"
-            seq_frame = SequenceCompilationFrame(
-                self.container_sequences.scrollable_frame,
-                index=0,
-                on_delete_callback=self.remove_sequence,
-                duplicate_callback=self.duplicate_sequence,
-                allow_rename=True,
-                name=seq_name,
-                files=tips_compilations[0].files.copy(),
-                export_checkbox=True
-            )
-            seq_frame.pack(fill="x", pady=5)
-            self.sequence_frames.append(seq_frame)
+        if not tips_compilations or not tips_compilations[0].files:
+            return
 
-        for idx, hook_comp in enumerate(hooks_compilations):
-            if not tips_compilations or not tips_compilations[0].files:
+        base_tip_files = tips_compilations[0].files
+        base_sequences = [(0, 0, base_tip_files.copy())]
+
+        for idx, hook_comp in enumerate(hooks_compilations, start=1):
+            if not hook_comp.files:
                 continue
-            name = f"{project_code}V0H{idx+1}"
-            files = hook_comp.files[:1] + tips_compilations[0].files
+            combined_files = hook_comp.files[:1] + base_tip_files
+            base_sequences.append((0, idx, combined_files))
+
+        def append_sequence(name: str, files):
             seq_frame = SequenceCompilationFrame(
                 self.container_sequences.scrollable_frame,
-                index=idx+1,
+                index=len(self.sequence_frames),
                 on_delete_callback=self.remove_sequence,
                 duplicate_callback=self.duplicate_sequence,
                 allow_rename=True,
@@ -394,6 +395,15 @@ class SequenceCompilationsManager:
             )
             seq_frame.pack(fill="x", pady=5)
             self.sequence_frames.append(seq_frame)
+
+        for variant_idx, hook_idx, files in base_sequences:
+            if intro_files:
+                for intro_idx, intro_path in enumerate(intro_files):
+                    name = self._build_sequence_name(variant_idx, hook_idx, intro_idx)
+                    append_sequence(name, [intro_path] + files)
+            else:
+                name = self._build_sequence_name(variant_idx, hook_idx)
+                append_sequence(name, files)
 
     def export_sequences(self):
         if not self.sequence_frames:

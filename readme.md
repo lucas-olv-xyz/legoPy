@@ -8,7 +8,7 @@
 
 ## Typical Workflow
 
-1. Open the app and type the three digits of the project code (for example, 123 becomes E123).
+1. Open the app and enter the project prefix letters (E, B, G, Z, P, etc.) plus the three digits. The number field auto-pads, so `1` becomes `001` and `99` becomes `099`.
 2. Choose **First Batch** for the very first delivery or **Next Batch** for follow-up rounds.
 3. Use the buttons to load Tip clips and, when needed, Hook clips from your computer.
 4. Review the lists, drag files up or down with the arrow buttons, and rename compilations when it helps communication.
@@ -16,7 +16,7 @@
 
 ## Screens You Will See
 
-- **First Batch screen** - Automatically creates several Tip compilations by rotating the order of the files you load. You can still add empty compilations and build one manually if you prefer. A single click can export every Tip list and the matching Hook + Tip sequences.
+- **First Batch screen** - Automatically creates several Tip compilations by rotating the order of the files you load. You can now drop optional intro clips that get prepended to every generated sequence name (`_I0`, `_I1`, ...). You can still add empty compilations and build one manually if you prefer. A single click can export every Tip list and the matching Hook + Tip sequences.
 - **Next Batch screen** - Lets you curate each compilation by hand. You decide column layout, duplicate any compilation you like, and combine Hooks with Tips automatically. Only the compilations you mark for export are produced.
 
 ## What Gets Exported

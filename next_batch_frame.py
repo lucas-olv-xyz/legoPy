@@ -202,6 +202,21 @@ class NextBatchFrame(ttk.Frame):
             self.columns_var.set("2")
         self.relayout_compilations()
 
+    def _project_code_value(self):
+        if callable(self.get_project_code):
+            return (self.get_project_code() or "").strip()
+        return ""
+
+    def _format_tip_name(self, idx):
+        code = self._project_code_value()
+        descriptor = f"T{idx+1}"
+        return f"{code}_{descriptor}_T_EN" if code else f"{descriptor}_T_EN"
+
+    def _format_hook_name(self, variant_idx, hook_idx):
+        code = self._project_code_value()
+        descriptor = f"V{variant_idx}H{hook_idx}"
+        return f"{code}_{descriptor}_T_EN" if code else f"{descriptor}_T_EN"
+
     def relayout_compilations(self):
         for widget in self.container.winfo_children():
             widget.grid_forget()
@@ -211,14 +226,10 @@ class NextBatchFrame(ttk.Frame):
                 num_columns = 1
         except Exception:
             num_columns = 2
-        project_prefix = ""
-        if callable(self.get_project_code):
-            project_prefix = self.get_project_code().strip()
         for idx, frame in enumerate(self.compilation_frames):
             row = idx // num_columns
             col = idx % num_columns
-            name = f"{project_prefix}V{idx}H0" if project_prefix else f"V{idx}H0"
-            frame.set_name(name)
+            frame.set_name(self._format_tip_name(idx))
             frame.grid(row=row, column=col, padx=8, pady=8, sticky="nsew")
 
     def load_tips_files(self):
@@ -298,10 +309,7 @@ class NextBatchFrame(ttk.Frame):
 
     def add_compilation_from_files(self, files, table_label=None):
         idx = len(self.compilation_frames)
-        project_prefix = ""
-        if callable(self.get_project_code):
-            project_prefix = self.get_project_code().strip()
-        name = f"{project_prefix}V{idx}H0" if project_prefix else f"V{idx}H0"
+        name = self._format_tip_name(idx)
         frame = ManualCompilationFrame(
             self.container,
             title=name,
@@ -331,18 +339,16 @@ class NextBatchFrame(ttk.Frame):
 
     def duplicate_compilation(self, frame):
         idx = self.compilation_frames.index(frame)
-        project_prefix = ""
-        if callable(self.get_project_code):
-            project_prefix = self.get_project_code().strip()
+        project_code = self._project_code_value()
         old_name = frame.get_name()
-        if project_prefix and old_name.startswith(project_prefix + "_"):
-            base_name = old_name[len(project_prefix) + 1:]  # +1 to "_"
+        if project_code and old_name.startswith(project_code + "_"):
+            base_name = old_name[len(project_code) + 1:]  # +1 to "_"
         else:
             base_name = old_name
-        new_name = f"{project_prefix}_{base_name}_copy" if project_prefix else f"{base_name}_copy"
+        new_name = f"{project_code}_{base_name}_copy" if project_code else f"{base_name}_copy"
         cf = ManualCompilationFrame(
             self.container,
-            title=f"{frame.get_name()}_copy",
+            title=new_name,
             files=frame.files.copy(),
             on_delete_callback=self.remove_compilation_frame,
             allow_rename=True,
@@ -359,12 +365,8 @@ class NextBatchFrame(ttk.Frame):
         self.rebuild_hook_combinations()
 
     def update_compilation_names(self):
-        project_prefix = ""
-        if callable(self.get_project_code):
-            project_prefix = self.get_project_code().strip()
         for idx, frame in enumerate(self.compilation_frames):
-            name = f"{project_prefix}V{idx}H0" if project_prefix else f"V{idx}H0"
-            frame.set_name(name)
+            frame.set_name(self._format_tip_name(idx))
 
     def rebuild_hook_combinations(self):
         for cf in getattr(self, "hooks_compilation_frames", []):
@@ -374,12 +376,10 @@ class NextBatchFrame(ttk.Frame):
         if not self.hooks_files or not self.compilation_frames:
             return
 
-        project_prefix = self.get_project_code().strip()
-
-        for hook_idx, hook_path in enumerate(self.hooks_files):
+        for hook_idx, hook_path in enumerate(self.hooks_files, start=1):
             for idx, base_comp in enumerate(self.compilation_frames):
                 files = [hook_path] + base_comp.files
-                name = f"{project_prefix}V{idx}H{hook_idx+1}"
+                name = self._format_hook_name(idx, hook_idx)
                 cf = ManualCompilationFrame(
                     self.hooks_container.scrollable_frame,
                     title=name,

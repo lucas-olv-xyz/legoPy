@@ -11,6 +11,7 @@ class BatchSwitcherApp(tk.Tk):
         self.resizable(True, True)
         self.main_frame = ttk.Frame(self)
         self.main_frame.pack(fill="both", expand=True)
+        self.project_code_prefix = tk.StringVar(value="E")
         self.project_code_digits = tk.StringVar()
         self.show_batch_menu()
 
@@ -19,10 +20,13 @@ class BatchSwitcherApp(tk.Tk):
             widget.destroy()
 
     def get_project_code(self):
-        digits = self.project_code_digits.get().strip()
-        digits = ''.join(filter(str.isdigit, digits))[:3]
+        prefix = (self.project_code_prefix.get() or "").strip().upper()
+        prefix = ''.join(ch for ch in prefix if ch.isalpha())
+        if not prefix:
+            prefix = "E"
+        digits = ''.join(filter(str.isdigit, self.project_code_digits.get() or ""))[:3]
         digits = digits.zfill(3)
-        return f"E{digits}"
+        return f"{prefix}{digits}"
 
     def show_batch_menu(self):
         self.clear_main()
@@ -31,10 +35,10 @@ class BatchSwitcherApp(tk.Tk):
 
         proj_frame = ttk.Frame(self.main_frame)
         proj_frame.pack(pady=(12, 20))
-        ttk.Label(proj_frame, text="Project Name:", font=("Arial", 13)).pack(side="left", padx=(0,6))
-        proj_entry_label = ttk.Label(proj_frame, text="E", font=("Arial", 13), width=1, anchor="center")
-        proj_entry_label.pack(side="left")
-        entry_digits = ttk.Entry(proj_frame, textvariable=self.project_code_digits, font=("Arial", 13), width=4, justify="center")
+        ttk.Label(proj_frame, text="Project Code:", font=("Arial", 13)).pack(side="left", padx=(0,6))
+        prefix_entry = ttk.Entry(proj_frame, textvariable=self.project_code_prefix, font=("Arial", 13), width=4, justify="center")
+        prefix_entry.pack(side="left", padx=(0,4))
+        entry_digits = ttk.Entry(proj_frame, textvariable=self.project_code_digits, font=("Arial", 13), width=5, justify="center")
         entry_digits.pack(side="left")
 
         btn_first = ttk.Button(self.main_frame, text="First Batch", width=25, command=self.show_first_batch)
