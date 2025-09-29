@@ -314,16 +314,50 @@ class SequenceCompilationsManager:
         self.btn_export_sequences = ttk.Button(export_frame, text="Export Sequence Compilations", command=self.export_sequences)
         self.btn_export_sequences.pack(anchor="center")
 
-    def _build_sequence_name(self, variant_idx, hook_idx, intro_idx=None):
-        project_code = self.get_project_code() or "E000"
-        descriptor = f"V{variant_idx}H{hook_idx}"
-        if intro_idx is not None:
-            descriptor += f"I{intro_idx}"
-        return f"{project_code}_{descriptor}_T_EN"
+    def _determine_sequence_base_name(self, primary_file, fallback_hook_idx, variant_idx=0):
+        project_code = (self.get_project_code() or "E000").strip() or "E000"
+        fallback = f"{project_code}_V{variant_idx}H{fallback_hook_idx}_T_EN"
+        if not primary_file:
+            return fallback
+        base_name = os.path.splitext(os.path.basename(primary_file))[0].strip()
+        if not base_name:
+            return fallback
+
+        normalized_project = project_code.upper()
+        base_upper = base_name.upper()
+
+        if base_upper.startswith(normalized_project):
+            candidate = project_code + base_name[len(project_code):]
+        else:
+            rest = base_name.split("_", 1)[1] if "_" in base_name else base_name
+            rest = rest.strip()
+            if not rest:
+                candidate = fallback
+            elif rest.upper().startswith("V"):
+                candidate = f"{project_code}_{rest}"
+            else:
+                separator = "" if rest.startswith(("(", "_", "H")) else "_"
+                candidate = f"{project_code}_V{variant_idx}{separator}{rest}"
+        if not candidate.endswith("_T_EN"):
+            candidate = f"{candidate}_T_EN"
+        return candidate
+
+    def _build_sequence_name(self, base_name, intro_idx=None):
+        name = (base_name or "").strip()
+        if not name:
+            project_code = (self.get_project_code() or "E000").strip() or "E000"
+            name = f"{project_code}_V0H0_T_EN"
+        if intro_idx is None:
+            return name
+        if name.endswith("_T_EN"):
+            return f"{name[:-5]}I{intro_idx}_T_EN"
+        return f"{name}_I{intro_idx}"
+
 
     def add_empty_sequence(self):
         idx = len(self.sequence_frames)
-        name = self._build_sequence_name(idx, 0)
+        base_name = self._determine_sequence_base_name(None, idx)
+        name = self._build_sequence_name(base_name)
         seq = SequenceCompilationFrame(
             self.container_sequences.scrollable_frame,
             index=idx,
@@ -337,12 +371,15 @@ class SequenceCompilationsManager:
         seq.pack(fill="x", pady=5)
         self.sequence_frames.append(seq)
 
+
     def remove_sequence(self, frame):
         idx = self.sequence_frames.index(frame)
         frame.destroy()
         self.sequence_frames.pop(idx)
         for i, seq in enumerate(self.sequence_frames):
-            seq.set_name(self._build_sequence_name(i, 0))
+            fallback_name = self._determine_sequence_base_name(None, i)
+            seq.set_name(self._build_sequence_name(fallback_name))
+
 
     def duplicate_sequence(self, frame):
         idx = self.sequence_frames.index(frame)
@@ -352,7 +389,7 @@ class SequenceCompilationsManager:
             on_delete_callback=self.remove_sequence,
             duplicate_callback=self.duplicate_sequence,
             allow_rename=True,
-            name=self._build_sequence_name(idx + 1, 0),
+            name=self._build_sequence_name(self._determine_sequence_base_name(None, idx + 1)),
             files=frame.files.copy(),
             export_checkbox=True
         )
@@ -362,7 +399,9 @@ class SequenceCompilationsManager:
             cf.pack_forget()
             cf.pack(fill="x", pady=5)
         for i, seq in enumerate(self.sequence_frames):
-            seq.set_name(self._build_sequence_name(i, 0))
+            fallback_name = self._determine_sequence_base_name(None, i)
+            seq.set_name(self._build_sequence_name(fallback_name))
+
 
     def load_sequences(self):
         for frame in getattr(self, "sequence_frames", []):
@@ -377,13 +416,19 @@ class SequenceCompilationsManager:
             return
 
         base_tip_files = tips_compilations[0].files
-        base_sequences = [(0, 0, base_tip_files.copy())]
+        base_sequences = []
+
+        base_primary = base_tip_files[0] if base_tip_files else None
+        base_name = self._determine_sequence_base_name(base_primary, fallback_hook_idx=0)
+        base_sequences.append((base_name, base_tip_files.copy()))
 
         for idx, hook_comp in enumerate(hooks_compilations, start=1):
             if not hook_comp.files:
                 continue
-            combined_files = hook_comp.files[:1] + base_tip_files
-            base_sequences.append((0, idx, combined_files))
+            hook_primary = hook_comp.files[0]
+            combined_files = [hook_primary] + base_tip_files
+            sequence_name = self._determine_sequence_base_name(hook_primary, fallback_hook_idx=idx)
+            base_sequences.append((sequence_name, combined_files))
 
         def append_sequence(name: str, files):
             seq_frame = SequenceCompilationFrame(
@@ -399,14 +444,14 @@ class SequenceCompilationsManager:
             seq_frame.pack(fill="x", pady=5)
             self.sequence_frames.append(seq_frame)
 
-        for variant_idx, hook_idx, files in base_sequences:
+        for base_name, files in base_sequences:
             if intro_files:
                 for intro_idx, intro_path in enumerate(intro_files):
-                    name = self._build_sequence_name(variant_idx, hook_idx, intro_idx)
-                    append_sequence(name, [intro_path] + files)
+                    name_with_intro = self._build_sequence_name(base_name, intro_idx)
+                    append_sequence(name_with_intro, [intro_path] + files)
             else:
-                name = self._build_sequence_name(variant_idx, hook_idx)
-                append_sequence(name, files)
+                append_sequence(base_name, files)
+
 
     def export_sequences(self):
         if not self.sequence_frames:
