@@ -71,7 +71,8 @@ class FirstBatchFrame(ttk.Frame):
             get_hooks_compilations=lambda: self.hooks_compilations,
             get_tips_compilations=lambda: self.compilations,
             get_project_code=self.get_project_code,
-            get_intro_files=lambda: self.intro_files
+            get_intro_files=lambda: self.intro_files,
+            export_tips_callback=self.start_processing_thread
         )
 
         # --- DODAJ TO: --- (po sequence_manager!)

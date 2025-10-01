@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import os
+import re
 from utils import (
     get_video_resolution,
     get_video_duration,
@@ -10,6 +11,9 @@ from utils import (
     get_ffmpeg_path,
     format_for_ffmpeg_concat
 )
+
+H_SEGMENT_PATTERN = re.compile(r"H(\d+|\([^)]*\))", re.IGNORECASE)
+INTRO_SUFFIX_PATTERN = re.compile(r"I\d+$", re.IGNORECASE)
 
 class FileItem(tk.Frame):
     def __init__(self, parent, filepath, move_up_cb, move_down_cb, delete_cb):
@@ -290,7 +294,7 @@ class SequenceCompilationFrame(BaseCompilationFrame):
             return False
 
 class SequenceCompilationsManager:
-    def __init__(self, parent, get_global_resolution_ref, get_hooks_compilations, get_tips_compilations, get_project_code, get_intro_files=None):
+    def __init__(self, parent, get_global_resolution_ref, get_hooks_compilations, get_tips_compilations, get_project_code, get_intro_files=None, export_tips_callback=None):
         self.parent = parent
         self.get_global_resolution_ref = get_global_resolution_ref
         self.get_hooks_compilations = get_hooks_compilations
@@ -299,6 +303,8 @@ class SequenceCompilationsManager:
         self.get_intro_files = get_intro_files or (lambda: [])
         self.sequence_frames = []
         self.progress_var = tk.DoubleVar()
+
+        self.export_tips_callback = export_tips_callback
 
         button_frame = ttk.Frame(parent)
         button_frame.pack(fill="x", pady=(10, 0))
@@ -311,6 +317,9 @@ class SequenceCompilationsManager:
         self.progress_bar.pack(side="bottom", fill="x", padx=20, pady=(0,2))
         export_frame = ttk.Frame(parent)
         export_frame.pack(side="bottom", fill="x", padx=20, pady=(2, 12))
+        if callable(self.export_tips_callback):
+            self.btn_export_tips = ttk.Button(export_frame, text="Export Tips Compilations", command=self.export_tips_compilations)
+            self.btn_export_tips.pack(anchor="center", pady=(0, 4))
         self.btn_export_sequences = ttk.Button(export_frame, text="Export Sequence Compilations", command=self.export_sequences)
         self.btn_export_sequences.pack(anchor="center")
 
@@ -325,6 +334,8 @@ class SequenceCompilationsManager:
 
         normalized_project = project_code.upper()
         base_upper = base_name.upper()
+        if not H_SEGMENT_PATTERN.search(base_upper):
+            return fallback
 
         if base_upper.startswith(normalized_project):
             candidate = project_code + base_name[len(project_code):]
@@ -340,6 +351,8 @@ class SequenceCompilationsManager:
                 candidate = f"{project_code}_V{variant_idx}{separator}{rest}"
         if not candidate.endswith("_T_EN"):
             candidate = f"{candidate}_T_EN"
+        if not H_SEGMENT_PATTERN.search(candidate.upper()):
+            return fallback
         return candidate
 
     def _build_sequence_name(self, base_name, intro_idx=None):
@@ -347,11 +360,15 @@ class SequenceCompilationsManager:
         if not name:
             project_code = (self.get_project_code() or "E000").strip() or "E000"
             name = f"{project_code}_V0H0_T_EN"
-        if intro_idx is None:
-            return name
+        try:
+            intro_idx = 0 if intro_idx is None else int(intro_idx)
+        except (TypeError, ValueError):
+            intro_idx = 0
         if name.endswith("_T_EN"):
-            return f"{name[:-5]}I{intro_idx}_T_EN"
-        return f"{name}_I{intro_idx}"
+            base = INTRO_SUFFIX_PATTERN.sub("", name[:-5])
+            return f"{base}I{intro_idx}_T_EN"
+        base = INTRO_SUFFIX_PATTERN.sub("", name)
+        return f"{base}_I{intro_idx}"
 
 
     def add_empty_sequence(self):
@@ -446,11 +463,16 @@ class SequenceCompilationsManager:
 
         for base_name, files in base_sequences:
             if intro_files:
-                for intro_idx, intro_path in enumerate(intro_files):
+                for intro_idx, intro_path in enumerate(intro_files, start=1):
                     name_with_intro = self._build_sequence_name(base_name, intro_idx)
                     append_sequence(name_with_intro, [intro_path] + files)
             else:
-                append_sequence(base_name, files)
+                append_sequence(self._build_sequence_name(base_name), files)
+
+
+    def export_tips_compilations(self):
+        if callable(self.export_tips_callback):
+            self.export_tips_callback()
 
 
     def export_sequences(self):
