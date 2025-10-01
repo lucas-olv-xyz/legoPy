@@ -7,13 +7,98 @@ from utils import (
     get_video_duration,
     concat_and_trim_videos,
     ensure_folder_for_export,
+    resolve_export_roots,
     safe_filename,
     get_ffmpeg_path,
     format_for_ffmpeg_concat
 )
 
-H_SEGMENT_PATTERN = re.compile(r"H(\d+|\([^)]*\))", re.IGNORECASE)
+H_SEGMENT_PATTERN = re.compile(r"H(\d+[a-z]?|\([^)]*\))", re.IGNORECASE)
+VARIANT_SEGMENT_PATTERN = re.compile(r"V(\d+[A-Za-z]?)", re.IGNORECASE)
 INTRO_SUFFIX_PATTERN = re.compile(r"I\d+$", re.IGNORECASE)
+
+
+def determine_sequence_base_name(project_code, primary_file, fallback_hook_idx, variant_idx=0):
+    raw_project = (project_code or "E000").strip() or "E000"
+    project_filtered = ''.join(ch for ch in raw_project if ch.isalnum() or ch == '_') or 'E000'
+    project_code_clean = project_filtered.upper()
+    fallback_variant = f"V{variant_idx}"
+    fallback_hook = f"H{fallback_hook_idx}"
+
+    variant_segment = fallback_variant
+    hook_segment = fallback_hook
+    extra_tokens = []
+
+    base_name = ''
+    if primary_file:
+        base_name = os.path.splitext(os.path.basename(primary_file))[0].strip()
+
+    variant_match = VARIANT_SEGMENT_PATTERN.search(base_name) if base_name else None
+    if variant_match:
+        variant_segment = f"V{variant_match.group(1)}"
+
+    hook_match = H_SEGMENT_PATTERN.search(base_name) if base_name else None
+    if hook_match:
+        hook_segment = f"H{hook_match.group(1)}"
+
+    if base_name:
+        tokens = [token for token in base_name.split('_') if token]
+        project_pattern = re.compile(re.escape(project_filtered), re.IGNORECASE)
+        for token in tokens:
+            cleaned = token.strip()
+            if not cleaned:
+                continue
+            cleaned = project_pattern.sub('', cleaned, count=1)
+            if variant_match:
+                cleaned = cleaned.replace(variant_match.group(0), '', 1)
+            if hook_match:
+                cleaned = cleaned.replace(hook_match.group(0), '', 1)
+            cleaned = cleaned.strip('_')
+            cleaned = cleaned.strip()
+            if not cleaned or cleaned.upper() == 'T_EN':
+                continue
+            extra_tokens.append(cleaned)
+
+    if not variant_segment or len(variant_segment) == 1:
+        variant_segment = f"V{variant_idx}"
+    if not variant_segment.upper().startswith('V'):
+        variant_segment = f"V{variant_segment}"
+
+    if not hook_segment or not hook_segment.upper().startswith('H'):
+        hook_segment = f"H{fallback_hook_idx}"
+
+    combined_segment = f"{variant_segment}{hook_segment}"
+    parts = [project_code_clean, combined_segment]
+    parts.extend(extra_tokens)
+    if not any(part.upper() == 'T_EN' for part in parts):
+        parts.append('T_EN')
+
+    candidate = '_'.join(part for part in parts if part)
+
+    if not VARIANT_SEGMENT_PATTERN.search(candidate):
+        candidate = candidate.replace(project_code_clean, f"{project_code_clean}_V{variant_idx}", 1)
+
+    if not H_SEGMENT_PATTERN.search(candidate):
+        candidate = candidate.replace('_T_EN', f"_H{fallback_hook_idx}_T_EN")
+
+    return candidate
+
+
+def build_sequence_name(base_name, intro_idx=None, project_code=None):
+    fallback_project = (project_code or "E000").strip() or "E000"
+    name = (base_name or '').strip()
+    if not name:
+        name = f"{fallback_project}_V0H0_T_EN"
+    try:
+        intro_value = 0 if intro_idx is None else int(intro_idx)
+    except (TypeError, ValueError):
+        intro_value = 0
+    if name.endswith('_T_EN'):
+        base = INTRO_SUFFIX_PATTERN.sub('', name[:-5])
+        return f"{base}I{intro_value}_T_EN"
+    base = INTRO_SUFFIX_PATTERN.sub('', name)
+    return f"{base}_I{intro_value}"
+
 
 class FileItem(tk.Frame):
     def __init__(self, parent, filepath, move_up_cb, move_down_cb, delete_cb):
@@ -302,7 +387,7 @@ class SequenceCompilationFrame(BaseCompilationFrame):
     def __init__(self, *args, export_checkbox=True, **kwargs):
         super().__init__(*args, export_checkbox=export_checkbox, **kwargs)
 
-    # --- Sequence Compilation export to 'sequences/comp1'
+    # --- Sequence Compilation export to Sequences_RealLength folder
     def export(self, duration_sec=120):
         if not self.files or not self.should_export():
             return False
@@ -310,10 +395,9 @@ class SequenceCompilationFrame(BaseCompilationFrame):
             name = self.get_name() or "sequence"
             safe_name = safe_filename(name) + ".mp4"
             first_file = self.files[0]
-            base_dir = os.path.dirname(first_file)
-            out_dir = os.path.join(base_dir, "sequences", "comp1")
-            os.makedirs(out_dir, exist_ok=True)
-            output_path = os.path.join(out_dir, safe_name)
+            _, sequences_dir = resolve_export_roots(first_file)
+            os.makedirs(sequences_dir, exist_ok=True)
+            output_path = os.path.join(sequences_dir, safe_name)
             import tempfile
             with tempfile.TemporaryDirectory() as tmpdir:
                 concat_list = os.path.join(tmpdir, "files.txt")
@@ -329,14 +413,16 @@ class SequenceCompilationFrame(BaseCompilationFrame):
                 import subprocess
                 result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
                 if result.returncode != 0:
-                    with open(os.path.join(out_dir, "sequence_export_error.log"), "w", encoding="utf-8") as logf:
+                    error_log = os.path.join(sequences_dir, "sequence_export_error.log")
+                    with open(error_log, "w", encoding="utf-8") as logf:
                         logf.write(f"CMD: {' '.join(cmd)}\n")
                         logf.write(f"RET: {result.returncode}\n")
                         logf.write(f"STDOUT:\n{result.stdout}\n\nSTDERR:\n{result.stderr}")
                     return False
             return True
         except Exception as e:
-            with open(os.path.join(out_dir, "sequence_export_error.log"), "a", encoding="utf-8") as logf:
+            error_base = sequences_dir if 'sequences_dir' in locals() else os.path.dirname(self.files[0])
+            with open(os.path.join(error_base, "sequence_export_error.log"), "a", encoding="utf-8") as logf:
                 logf.write(str(e))
             return False
 
@@ -371,51 +457,17 @@ class SequenceCompilationsManager:
         self.btn_export_sequences.pack(anchor="center", fill="x")
 
     def _determine_sequence_base_name(self, primary_file, fallback_hook_idx, variant_idx=0):
-        project_code = (self.get_project_code() or "E000").strip() or "E000"
-        fallback = f"{project_code}_V{variant_idx}H{fallback_hook_idx}_T_EN"
-        if not primary_file:
-            return fallback
-        base_name = os.path.splitext(os.path.basename(primary_file))[0].strip()
-        if not base_name:
-            return fallback
+        project_code = self.get_project_code()
+        return determine_sequence_base_name(project_code, primary_file, fallback_hook_idx, variant_idx)
 
-        normalized_project = project_code.upper()
-        base_upper = base_name.upper()
-        if not H_SEGMENT_PATTERN.search(base_upper):
-            return fallback
 
-        if base_upper.startswith(normalized_project):
-            candidate = project_code + base_name[len(project_code):]
-        else:
-            rest = base_name.split("_", 1)[1] if "_" in base_name else base_name
-            rest = rest.strip()
-            if not rest:
-                candidate = fallback
-            elif rest.upper().startswith("V"):
-                candidate = f"{project_code}_{rest}"
-            else:
-                separator = "" if rest.startswith(("(", "_", "H")) else "_"
-                candidate = f"{project_code}_V{variant_idx}{separator}{rest}"
-        if not candidate.endswith("_T_EN"):
-            candidate = f"{candidate}_T_EN"
-        if not H_SEGMENT_PATTERN.search(candidate.upper()):
-            return fallback
-        return candidate
 
     def _build_sequence_name(self, base_name, intro_idx=None):
-        name = (base_name or "").strip()
-        if not name:
-            project_code = (self.get_project_code() or "E000").strip() or "E000"
-            name = f"{project_code}_V0H0_T_EN"
-        try:
-            intro_idx = 0 if intro_idx is None else int(intro_idx)
-        except (TypeError, ValueError):
-            intro_idx = 0
-        if name.endswith("_T_EN"):
-            base = INTRO_SUFFIX_PATTERN.sub("", name[:-5])
-            return f"{base}I{intro_idx}_T_EN"
-        base = INTRO_SUFFIX_PATTERN.sub("", name)
-        return f"{base}_I{intro_idx}"
+        project_code = self.get_project_code()
+        return build_sequence_name(base_name, intro_idx, project_code)
+
+
+
 
 
     def add_empty_sequence(self):
@@ -479,20 +531,7 @@ class SequenceCompilationsManager:
         if not tips_compilations or not tips_compilations[0].files:
             return
 
-        base_tip_files = tips_compilations[0].files
-        base_sequences = []
-
-        base_primary = base_tip_files[0] if base_tip_files else None
-        base_name = self._determine_sequence_base_name(base_primary, fallback_hook_idx=0)
-        base_sequences.append((base_name, base_tip_files.copy()))
-
-        for idx, hook_comp in enumerate(hooks_compilations, start=1):
-            if not hook_comp.files:
-                continue
-            hook_primary = hook_comp.files[0]
-            combined_files = [hook_primary] + base_tip_files
-            sequence_name = self._determine_sequence_base_name(hook_primary, fallback_hook_idx=idx)
-            base_sequences.append((sequence_name, combined_files))
+        base_tip_files = list(tips_compilations[0].files)
 
         def append_sequence(name: str, files):
             seq_frame = SequenceCompilationFrame(
@@ -502,19 +541,38 @@ class SequenceCompilationsManager:
                 duplicate_callback=self.duplicate_sequence,
                 allow_rename=True,
                 name=name,
-                files=files,
+                files=list(files),
                 export_checkbox=True
             )
             seq_frame.pack(fill="x", pady=5)
             self.sequence_frames.append(seq_frame)
 
-        for base_name, files in base_sequences:
-            if intro_files:
+        def add_sequence_variants(base_name: str, tip_files, hook_file=None):
+            tip_list = list(tip_files)
+            if hook_file:
+                base_sequence = [hook_file] + tip_list
+                append_sequence(self._build_sequence_name(base_name, 0), base_sequence)
                 for intro_idx, intro_path in enumerate(intro_files, start=1):
-                    name_with_intro = self._build_sequence_name(base_name, intro_idx)
-                    append_sequence(name_with_intro, [intro_path] + files)
+                    sequence_files = [hook_file, intro_path] + tip_list
+                    append_sequence(self._build_sequence_name(base_name, intro_idx), sequence_files)
             else:
-                append_sequence(self._build_sequence_name(base_name), files)
+                base_sequence = list(tip_list)
+                append_sequence(self._build_sequence_name(base_name, 0), base_sequence)
+                for intro_idx, intro_path in enumerate(intro_files, start=1):
+                    sequence_files = [intro_path] + tip_list
+                    append_sequence(self._build_sequence_name(base_name, intro_idx), sequence_files)
+
+        primary_tip = base_tip_files[0] if base_tip_files else None
+        base_name = self._determine_sequence_base_name(primary_tip, fallback_hook_idx=0)
+        add_sequence_variants(base_name, base_tip_files, hook_file=None)
+
+        for idx, hook_comp in enumerate(hooks_compilations, start=1):
+            if not hook_comp.files:
+                continue
+            hook_primary = hook_comp.files[0]
+            sequence_name = self._determine_sequence_base_name(hook_primary, fallback_hook_idx=idx)
+            add_sequence_variants(sequence_name, base_tip_files, hook_file=hook_primary)
+
 
 
     def export_tips_compilations(self):
@@ -556,4 +614,4 @@ class SequenceCompilationsManager:
         if errors:
             messagebox.showerror("Export error", f"Failed to export: {', '.join(errors)}")
         else:
-            messagebox.showinfo("Export", f"Exported {count} sequence compilations to sequences/comp1 folders.")
+            messagebox.showinfo("Export", f"Exported {count} sequence compilations to Sequences_RealLength folders.")

@@ -6,6 +6,7 @@ from tkinter import ttk, messagebox, filedialog
 import tkinter as tk
 import threading
 import os
+from utils import select_preferred_tip_variants
 
 def format_first_file_duration(duration):
     m = int(duration // 60)
@@ -134,11 +135,15 @@ class FirstBatchFrame(ttk.Frame):
         filepaths = filedialog.askopenfilenames(filetypes=[("Video files", "*.mp4 *.mov *.mkv *.avi *.flv *.wmv")])
         if not filepaths:
             return
+        all_paths = [os.path.abspath(path) for path in filepaths]
+        filtered_paths = select_preferred_tip_variants(all_paths)
+        if not filtered_paths:
+            messagebox.showwarning("Warning", "No Tips files selected after applying naming rules.")
+            return
         self.clear_all_compilations()
-        n = len(filepaths)
+        n = len(filtered_paths)
         for i in range(n):
-            # ROTACJA (ważne!)
-            rotated = filepaths[i:] + filepaths[:i]
+            rotated = filtered_paths[i:] + filtered_paths[:i]
             comp = CompilationFrame(
                 self.container_tips.scrollable_frame, i,
                 on_delete_callback=self.remove_tips_compilation,
@@ -150,6 +155,8 @@ class FirstBatchFrame(ttk.Frame):
         self.sync_hooks_with_tips1()
         self.update_compilation_numbers()
         self.sequence_manager.load_sequences()
+
+
 
     def load_hooks_files(self):
         filepaths = filedialog.askopenfilenames(filetypes=[("Video files", "*.mp4 *.mov *.mkv *.avi *.flv *.wmv")])

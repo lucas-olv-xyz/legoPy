@@ -1,5 +1,5 @@
-from compilations import ScrollableFrame, FileItem
-from utils import get_video_resolution, ensure_folder_for_export, safe_filename, get_ffmpeg_path
+from compilations import ScrollableFrame, FileItem, determine_sequence_base_name, build_sequence_name
+from utils import get_video_resolution, safe_filename, get_ffmpeg_path, resolve_export_roots, select_preferred_tip_variants, format_for_ffmpeg_concat
 from tkinter import ttk, messagebox, filedialog
 import tkinter as tk
 import os
@@ -80,17 +80,16 @@ class ManualCompilationFrame(ttk.LabelFrame):
             return False
         try:
             first_file = self.files[0]
-            base_dir = os.path.dirname(first_file)
-            out_dir = os.path.join(base_dir, "sequences", "comp2")
-            os.makedirs(out_dir, exist_ok=True)
+            _, sequences_dir = resolve_export_roots(first_file)
+            os.makedirs(sequences_dir, exist_ok=True)
             name = self.get_name() or "compilation"
             safe_name = safe_filename(name) + ".mp4"
-            output_path = os.path.join(out_dir, safe_name)
+            output_path = os.path.join(sequences_dir, safe_name)
             with tempfile.TemporaryDirectory() as tmpdir:
                 concat_list = os.path.join(tmpdir, "files.txt")
                 with open(concat_list, "w", encoding="utf-8") as f:
                     for video_path in self.files:
-                        f.write(f"file '{video_path}'\n")
+                        f.write(f"file '{format_for_ffmpeg_concat(video_path)}'\n")
                 ffmpeg_path = get_ffmpeg_path()
                 cmd = [
                     ffmpeg_path, "-y", "-f", "concat", "-safe", "0",
@@ -99,13 +98,16 @@ class ManualCompilationFrame(ttk.LabelFrame):
                 ]
                 result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
                 if result.returncode != 0:
-                    with open(os.path.join(out_dir, "export_error.log"), "a", encoding="utf-8") as logf:
+                    error_log = os.path.join(sequences_dir, "manual_export_error.log")
+                    with open(error_log, "a", encoding="utf-8") as logf:
                         logf.write(f"CMD: {' '.join(cmd)}\n")
-                        logf.write(f"STDOUT:\n{result.stdout}\n\nSTDERR:\n{result.stderr}\n")
+                        logf.write(f"RET: {result.returncode}\n")
+                        logf.write(f"STDOUT:\n{result.stdout}\n\nSTDERR:\n{result.stderr}")
                     return False
             return True
         except Exception as e:
-            with open(os.path.join(out_dir, "export_error.log"), "a", encoding="utf-8") as logf:
+            error_log = os.path.join(sequences_dir if 'sequences_dir' in locals() else os.path.dirname(self.files[0]), "manual_export_error.log")
+            with open(error_log, "a", encoding="utf-8") as logf:
                 logf.write(str(e))
             return False
 import tkinter as tk
@@ -121,6 +123,8 @@ class NextBatchFrame(ttk.Frame):
         self.hooks_compilation_frames = []
         self.tips_files = []
         self.hooks_files = []
+        self.intro_files = []
+        self._intro_file_items = []
         self.generated_from_table = []
 
         # Main container split into three columns
@@ -140,6 +144,14 @@ class NextBatchFrame(ttk.Frame):
         self.btn_load_tips.pack(pady=5, fill="x")
         self.btn_load_hooks = ttk.Button(left, text="Load Hooks Files", command=self.load_hooks_files, style='Accent.TButton')
         self.btn_load_hooks.pack(pady=5, fill="x")
+
+        intros_frame = ttk.LabelFrame(left, text="Intros", style='Section.TLabelframe')
+        intros_frame.pack(fill="both", expand=False, padx=8, pady=(10, 6))
+        ttk.Button(intros_frame, text="Load Intro Files", command=self.load_intro_files, style='Accent.TButton').pack(fill="x", padx=6, pady=(6, 4))
+        ttk.Button(intros_frame, text="Clear Intros", command=self.clear_intro_files).pack(fill="x", padx=6, pady=(0, 6))
+        self.intros_container = ScrollableFrame(intros_frame, style='Section.TFrame', frame_style='Section.TFrame')
+        self.intros_container.pack(fill="both", expand=True, padx=6, pady=(0, 6))
+
         self.btn_add_manual = ttk.Button(left, text="Add Empty Compilation", command=self.add_empty_compilation)
         self.btn_add_manual.pack(pady=5, fill="x")
         self.btn_export_sequences = ttk.Button(left, text="Export All", command=self.export_sequences, style='Accent.TButton')
@@ -211,11 +223,6 @@ class NextBatchFrame(ttk.Frame):
         descriptor = f"T{idx+1}"
         return f"{code}_{descriptor}_T_EN" if code else f"{descriptor}_T_EN"
 
-    def _format_hook_name(self, variant_idx, hook_idx):
-        code = self._project_code_value()
-        descriptor = f"V{variant_idx}H{hook_idx}"
-        return f"{code}_{descriptor}_T_EN" if code else f"{descriptor}_T_EN"
-
     def relayout_compilations(self):
         for widget in self.container.winfo_children():
             widget.grid_forget()
@@ -235,14 +242,21 @@ class NextBatchFrame(ttk.Frame):
         filepaths = filedialog.askopenfilenames(filetypes=[("Video files", "*.mp4 *.mov *.mkv *.avi *.flv *.wmv")])
         if not filepaths:
             return
-        self.tips_files = []
+        all_paths = [os.path.abspath(path) for path in filepaths]
+        filtered_paths = select_preferred_tip_variants(all_paths)
+        if not filtered_paths:
+            messagebox.showwarning("Warning", "No Tips files selected after applying naming rules.")
+            return
+        skipped = len(all_paths) - len(filtered_paths)
+        self.tips_files = filtered_paths
         self.reset_compilations()
-        for path in filepaths:
-            self.tips_files.append(os.path.abspath(path))
         if self.tips_files:
             self.add_compilation_from_files(self.tips_files)
         self.rebuild_hook_combinations()
-        messagebox.showinfo("Loaded", f"Loaded {len(self.tips_files)} Tips files.")
+        if skipped:
+            messagebox.showinfo("Loaded", f"Loaded {len(self.tips_files)} Tips files (skipped {skipped} due to naming rules).")
+        else:
+            messagebox.showinfo("Loaded", f"Loaded {len(self.tips_files)} Tips files.")
 
     def load_hooks_files(self):
         filepaths = filedialog.askopenfilenames(filetypes=[("Video files", "*.mp4 *.mov *.mkv *.avi *.flv *.wmv")])
@@ -254,6 +268,49 @@ class NextBatchFrame(ttk.Frame):
                 self.hooks_files.append(abspath)
         self.rebuild_hook_combinations()
         messagebox.showinfo("Loaded", f"Loaded {len(filepaths)} new Hooks files (total: {len(self.hooks_files)})")
+
+    def load_intro_files(self):
+        filepaths = filedialog.askopenfilenames(filetypes=[("Video files", "*.mp4 *.mov *.mkv *.avi *.flv *.wmv")])
+        if not filepaths:
+            return
+        self.intro_files = [os.path.abspath(path) for path in filepaths]
+        self._refresh_intro_items()
+
+    def _refresh_intro_items(self):
+        for item in getattr(self, '_intro_file_items', []):
+            item.destroy()
+        self._intro_file_items = []
+        for idx, path in enumerate(self.intro_files):
+            item = FileItem(
+                self.intros_container.scrollable_frame,
+                path,
+                lambda i=idx: self.move_intro_up(i),
+                lambda i=idx: self.move_intro_down(i),
+                lambda i=idx: self.delete_intro(i)
+            )
+            item.grid(row=idx, column=0, sticky="w")
+            self._intro_file_items.append(item)
+
+    def move_intro_up(self, index):
+        if index > 0:
+            self.intro_files[index - 1], self.intro_files[index] = self.intro_files[index], self.intro_files[index - 1]
+            self._refresh_intro_items()
+
+    def move_intro_down(self, index):
+        if index < len(self.intro_files) - 1:
+            self.intro_files[index + 1], self.intro_files[index] = self.intro_files[index], self.intro_files[index + 1]
+            self._refresh_intro_items()
+
+    def delete_intro(self, index):
+        if 0 <= index < len(self.intro_files):
+            del self.intro_files[index]
+            self._refresh_intro_items()
+
+    def clear_intro_files(self):
+        if not self.intro_files:
+            return
+        self.intro_files = []
+        self._refresh_intro_items()
 
     # def paste_from_clipboard(self):
     #     try:
@@ -375,13 +432,19 @@ class NextBatchFrame(ttk.Frame):
         if not self.hooks_files or not self.compilation_frames:
             return
 
+        project_code = self._project_code_value()
         for hook_idx, hook_path in enumerate(self.hooks_files, start=1):
+            hook_abs = os.path.abspath(hook_path)
             for idx, base_comp in enumerate(self.compilation_frames):
-                files = [hook_path] + base_comp.files
-                name = self._format_hook_name(idx, hook_idx)
+                base_files = list(base_comp.files)
+                if not base_files:
+                    continue
+                base_name = determine_sequence_base_name(project_code, hook_abs, fallback_hook_idx=hook_idx, variant_idx=idx)
+                frame_name = build_sequence_name(base_name, 0, project_code)
+                files = [hook_abs] + base_files
                 cf = ManualCompilationFrame(
                     self.hooks_container.scrollable_frame,
-                    title=name,
+                    title=frame_name,
                     files=files,
                     on_delete_callback=lambda f: f.destroy(),
                     allow_rename=True,
@@ -389,7 +452,12 @@ class NextBatchFrame(ttk.Frame):
                     export_checkbox=True
                 )
                 cf.pack(fill="x", pady=4)
+                cf.hook_path = hook_abs
+                cf.variant_index = idx
+                cf.hook_index = hook_idx
                 self.hooks_compilation_frames.append(cf)
+
+
 
     def reset_compilations(self):
         for cf in getattr(self, "compilation_frames", []):
@@ -402,34 +470,134 @@ class NextBatchFrame(ttk.Frame):
         if hasattr(self, "excel_text"):
             self.excel_text.delete("1.0", tk.END)
 
+    def _export_sequence(self, files, sequence_name):
+        if not files:
+            return False
+        try:
+            first_file = files[0]
+            _, sequences_dir = resolve_export_roots(first_file)
+            os.makedirs(sequences_dir, exist_ok=True)
+            safe_name = safe_filename(sequence_name) + ".mp4"
+            output_path = os.path.join(sequences_dir, safe_name)
+            with tempfile.TemporaryDirectory() as tmpdir:
+                concat_list = os.path.join(tmpdir, "files.txt")
+                with open(concat_list, "w", encoding="utf-8") as f:
+                    for video_path in files:
+                        f.write(f"file '{format_for_ffmpeg_concat(video_path)}'\n")
+                ffmpeg_path = get_ffmpeg_path()
+                cmd = [
+                    ffmpeg_path, "-y", "-f", "concat", "-safe", "0",
+                    "-i", concat_list,
+                    "-c", "copy", output_path
+                ]
+                result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+                if result.returncode != 0:
+                    error_log = os.path.join(sequences_dir, "sequence_export_error.log")
+                    with open(error_log, "a", encoding="utf-8") as logf:
+                        logf.write(f"CMD: {' '.join(cmd)}\n")
+                        logf.write(f"RET: {result.returncode}\n")
+                        logf.write(f"STDOUT:\n{result.stdout}\n\nSTDERR:\n{result.stderr}")
+                    return False
+            return True
+        except Exception as e:
+            fallback_dir = sequences_dir if 'sequences_dir' in locals() else os.path.dirname(files[0])
+            error_log = os.path.join(fallback_dir, "sequence_export_error.log")
+            with open(error_log, "a", encoding="utf-8") as logf:
+                logf.write(str(e))
+            return False
+
+
     def export_sequences(self):
-        export_list = [cf for cf in self.compilation_frames if cf.should_export()]
-        hooks_list = [cf for cf in self.hooks_compilation_frames if cf.should_export()]
-        total = len(export_list) + len(hooks_list)
-        if not total:
+        intro_files = list(self.intro_files)
+        base_entries = [(idx, frame) for idx, frame in enumerate(self.compilation_frames) if frame.should_export()]
+        hook_entries = [frame for frame in self.hooks_compilation_frames if frame.should_export()]
+        if not base_entries and not hook_entries:
             messagebox.showinfo("Export", "No compilations to export (none selected for export).")
             return
+
+        project_code = self._project_code_value()
+        intro_count = len(intro_files)
+        total = sum(1 + intro_count for _, _ in base_entries) + sum(1 + intro_count for _ in hook_entries)
+        if total == 0:
+            messagebox.showinfo("Export", "No compilations to export (none selected for export).")
+            return
+
         base_res = None
-        for cf in export_list + hooks_list:
-            for f in cf.files:
-                if not base_res:
-                    base_res = get_video_resolution(f)
-                elif get_video_resolution(f) != base_res:
+
+        def check_resolution(path):
+            nonlocal base_res
+            res = get_video_resolution(path)
+            if not res:
+                return True
+            if base_res is None:
+                base_res = res
+                return True
+            return res == base_res
+
+        for frame in [f for _, f in base_entries] + hook_entries:
+            for video_path in frame.files:
+                if not check_resolution(video_path):
                     messagebox.showerror("Resolution mismatch", "Not all files in all compilations have the same resolution!")
                     return
-        self.progress_var.set(0)
+        for intro_path in intro_files:
+            if not check_resolution(intro_path):
+                messagebox.showerror("Resolution mismatch", "Not all files in all compilations have the same resolution!")
+                return
+
         errors = []
-        all_frames = export_list + hooks_list
-        for idx, cf in enumerate(all_frames):
-            try:
-                ok = cf.export()
-                if not ok:
-                    errors.append(f"{cf.get_name()}")
-            except Exception as e:
-                errors.append(f"{cf.get_name()}: {e}")
-            self.progress_var.set(100*(idx+1)/total)
-            self.update()
+        processed = 0
+        success = 0
+
+        for idx, frame in base_entries:
+            base_name_seed = determine_sequence_base_name(project_code, frame.files[0] if frame.files else None, fallback_hook_idx=0, variant_idx=idx)
+            sequences = []
+            i0_name = build_sequence_name(base_name_seed, 0, project_code)
+            sequences.append((i0_name, list(frame.files)))
+            for intro_idx, intro_path in enumerate(intro_files, start=1):
+                seq_name = build_sequence_name(base_name_seed, intro_idx, project_code)
+                seq_files = [intro_path] + list(frame.files)
+                sequences.append((seq_name, seq_files))
+            for name, files in sequences:
+                if self._export_sequence(files, name):
+                    success += 1
+                else:
+                    errors.append(name)
+                processed += 1
+                self.progress_var.set(100 * processed / total)
+                self.update()
+
+        for frame in hook_entries:
+            hook_abs = getattr(frame, 'hook_path', frame.files[0] if frame.files else None)
+            if not hook_abs:
+                continue
+            hook_abs = os.path.abspath(hook_abs)
+            tips = []
+            hook_consumed = False
+            for path in frame.files:
+                abs_path = os.path.abspath(path)
+                if not hook_consumed and abs_path == hook_abs:
+                    hook_consumed = True
+                    continue
+                tips.append(path)
+            base_name_seed = determine_sequence_base_name(project_code, hook_abs, fallback_hook_idx=getattr(frame, 'hook_index', 0), variant_idx=getattr(frame, 'variant_index', 0))
+            base_display_name = build_sequence_name(frame.get_name() or base_name_seed, 0, project_code)
+            sequences = []
+            sequences.append((base_display_name, [hook_abs] + list(tips)))
+            for intro_idx, intro_path in enumerate(intro_files, start=1):
+                seq_name = build_sequence_name(base_display_name, intro_idx, project_code)
+                seq_files = [hook_abs, intro_path] + list(tips)
+                sequences.append((seq_name, seq_files))
+            for name, files in sequences:
+                if self._export_sequence(files, name):
+                    success += 1
+                else:
+                    errors.append(name)
+                processed += 1
+                self.progress_var.set(100 * processed / total)
+                self.update()
+
+        self.progress_var.set(0)
         if errors:
             messagebox.showerror("Export error", "\n".join(errors))
         else:
-            messagebox.showinfo("Export", f"Exported {len(all_frames)} compilations to sequences/comp2 folders.")
+            messagebox.showinfo("Export", f"Exported {success} compilations to Sequences_RealLength folders.")

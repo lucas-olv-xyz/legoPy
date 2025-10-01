@@ -21,10 +21,9 @@
 
 ## What Gets Exported
 
-- Tip compilations (with or without Hooks) are saved inside a `2min` folder next to the original clips.
-- First-batch sequences (Hook + Tips) land in `sequences/comp1`.
-- Follow-up sequences created in the Next Batch screen land in `sequences/comp2`.
-- File names always start with the project code and sequence markers (for example, `E123V0H1.mp4`) so everything stays organized when we send files out.
+- Tip compilations (with or without Hooks) are saved inside `<project>_Parts_2min`. When the sources live in `<project>_Parts_RealLength`, the app creates the 2-minute folder one level up; otherwise it sits alongside the source files.
+- All sequence compilations (First Batch and Next Batch) land in `<project>_Sequences_RealLength` with no extra `comp1/comp2` subfolders.
+- File names always start with the project code and include the full `V`/`H` segment plus the intro index (`I0`, `I1`, ...), for example `E123_V0H1I0_T_EN.mp4`.
 
 ## What's Inside This Repository
 

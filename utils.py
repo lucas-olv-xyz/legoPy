@@ -2,6 +2,7 @@ import os
 import sys
 import subprocess
 import shutil
+import re
 from pathlib import Path
 
 
@@ -33,6 +34,53 @@ def _resolve_ffmpeg_binary(binary_name):
 def format_for_ffmpeg_concat(path: str) -> str:
     formatted = Path(path).resolve().as_posix()
     return formatted.replace("'", "'\\''")
+
+TIP_VARIANT_PATTERN = re.compile(r"T(\d+)([a-z]?)", re.IGNORECASE)
+PARTS_REAL_LENGTH_SUFFIX = "_Parts_RealLength"
+
+
+def select_preferred_tip_variants(filepaths):
+    """Return a list filtered to the first alphabetical variant for each T id."""
+    selected = {}
+    if not filepaths:
+        return []
+    for idx, path in enumerate(filepaths):
+        base = os.path.splitext(os.path.basename(path))[0]
+        match = TIP_VARIANT_PATTERN.search(base)
+        if match:
+            key = match.group(1)
+            letter = (match.group(2) or '').lower()
+        else:
+            key = base.upper()
+            letter = ''
+        info = selected.get(key)
+        if info is None or letter < info['letter'] or (letter == info['letter'] and idx < info['index']):
+            selected[key] = {'letter': letter, 'path': path, 'index': idx}
+    ordered = sorted(selected.values(), key=lambda item: item['index'])
+    return [item['path'] for item in ordered]
+
+
+def resolve_export_roots(first_file_path):
+    """Return tuple of (parts_2min_dir, sequences_real_length_dir)."""
+    if not first_file_path:
+        raise ValueError('first_file_path must be provided')
+    absolute = os.path.abspath(first_file_path)
+    base_dir = os.path.dirname(absolute)
+    base_name = os.path.basename(base_dir).rstrip('/\\')
+    suffix = PARTS_REAL_LENGTH_SUFFIX
+    if base_name.endswith(suffix):
+        prefix = base_name[:-len(suffix)]
+        root_dir = os.path.dirname(base_dir)
+        prefix = prefix.rstrip('_')
+    else:
+        prefix = base_name.rstrip('_')
+        root_dir = base_dir
+    if not prefix:
+        prefix = 'Export'
+    parts_dir = os.path.join(root_dir, f"{prefix}_Parts_2min")
+    sequences_dir = os.path.join(root_dir, f"{prefix}_Sequences_RealLength")
+    return parts_dir, sequences_dir
+
 
 def get_ffmpeg_path():
     return _resolve_ffmpeg_binary("ffmpeg")
@@ -115,6 +163,14 @@ def concat_and_trim_videos(file_list, output_path, duration_sec=120):
 
 
 def ensure_folder_for_export(first_file_path, folder_name=None):
+    if folder_name == "2min":
+        parts_dir, _ = resolve_export_roots(first_file_path)
+        os.makedirs(parts_dir, exist_ok=True)
+        return parts_dir
+    if folder_name in {"sequence", "sequences"}:
+        _, sequences_dir = resolve_export_roots(first_file_path)
+        os.makedirs(sequences_dir, exist_ok=True)
+        return sequences_dir
     base_dir = os.path.dirname(first_file_path)
     if folder_name:
         folder = os.path.join(base_dir, folder_name)
@@ -124,4 +180,5 @@ def ensure_folder_for_export(first_file_path, folder_name=None):
 
 
 def safe_filename(name):
-    return "".join(c for c in name if c.isalnum() or c in ('_', '-', ' ')).rstrip()
+    allowed = ('_', '-', ' ', '(', ')')
+    return ''.join(c for c in name if c.isalnum() or c in allowed).rstrip()
