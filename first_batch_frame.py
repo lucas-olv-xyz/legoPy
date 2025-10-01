@@ -17,52 +17,71 @@ class FirstBatchFrame(ttk.Frame):
         super().__init__(parent)
         self.get_project_code = get_project_code
 
-        ttk.Button(self, text="Back to Menu", command=back_callback).pack(anchor="nw", padx=8, pady=(10, 2))
+        self.configure(style='App.TFrame')
 
-        main_frame = ttk.Frame(self)
+        ttk.Button(self, text="Back to Menu", command=back_callback, style='Accent.TButton').pack(anchor="nw", padx=8, pady=(10, 2))
+
+        main_frame = ttk.Frame(self, style='App.TFrame')
         main_frame.pack(fill="both", expand=True, padx=4, pady=4)
         main_frame.columnconfigure(0, weight=2)
         main_frame.columnconfigure(1, weight=1)
         main_frame.rowconfigure(0, weight=1)
 
-        left_col = ttk.Frame(main_frame)
+        left_col = ttk.Frame(main_frame, style='Section.TFrame')
         left_col.grid(row=0, column=0, sticky="nsew")
-        right_col = ttk.Frame(main_frame, relief="solid", borderwidth=1)
+        right_col = ttk.Frame(main_frame, style='Section.TFrame', relief="solid", borderwidth=1)
         right_col.grid(row=0, column=1, sticky="nsew")
 
-        ttk.Label(left_col, text="Tips Compilations", font=("Arial", 17, "bold"), anchor="center").pack(anchor="center", padx=8, pady=(15, 8))
+        ttk.Label(left_col, text="Organize Clips", font=("Arial", 17, "bold"), style='SectionHeading.TLabel').pack(anchor="w", padx=8, pady=(12, 8))
         self.global_resolution_ref = {"value": None}
         self.compilations = []
         self.hooks_compilations = []
         self.intro_files = []
         self._intro_file_items = []
 
-        ttk.Label(left_col, text="Load Tips:").pack(anchor="w", padx=5, pady=(5,0))
-        ttk.Button(left_col, text="Load Tips Files", command=self.load_tips_files).pack(padx=5, pady=5)
-        ttk.Button(left_col, text="Add empty Tips compilation", command=self.add_empty_tips_compilation).pack(padx=5, pady=(0,5))
-        self.container_tips = ScrollableFrame(left_col)
-        self.container_tips.pack(fill="both", expand=True, padx=5, pady=5)
-
-        ttk.Separator(left_col, orient="horizontal").pack(fill="x", pady=10)
-        ttk.Label(left_col, text="Load Hooks:").pack(anchor="w", padx=5, pady=(5,0))
-        ttk.Button(left_col, text="Load Hooks Files", command=self.load_hooks_files).pack(padx=5, pady=5)
-        ttk.Button(left_col, text="Add empty Hooks compilation", command=self.add_empty_hooks_compilation).pack(padx=5, pady=(0,5))
-        self.container_hooks = ScrollableFrame(left_col)
-        self.container_hooks.pack(fill="both", expand=True, padx=5, pady=5)
-
-        ttk.Separator(left_col, orient="horizontal").pack(fill="x", pady=10)
-        ttk.Label(left_col, text="Load Intros:").pack(anchor="w", padx=5, pady=(5,0))
-        ttk.Button(left_col, text="Load Intro Files", command=self.load_intro_files).pack(padx=5, pady=5)
-        self.container_intros = ScrollableFrame(left_col)
-        self.container_intros.pack(fill="both", expand=True, padx=5, pady=5)
-
-        export_frame = ttk.Frame(left_col)
-        export_frame.pack(fill="x", pady=(12, 0))
-        self.btn_process_all = ttk.Button(export_frame, text="Export Tips Compilations", command=self.start_processing_thread)
-        self.btn_process_all.pack(anchor="center", pady=(0, 4))
+        actions_frame = ttk.Frame(left_col, style='Section.TFrame')
+        actions_frame.pack(fill="x", padx=8, pady=(0, 12))
+        self.btn_process_all = ttk.Button(actions_frame, text="Export Tips Compilations", command=self.start_processing_thread, style='Accent.TButton')
+        self.btn_process_all.pack(fill="x")
         self.progress_var = tk.DoubleVar()
-        self.progress_bar = ttk.Progressbar(export_frame, variable=self.progress_var, maximum=100)
-        self.progress_bar.pack(fill="x", padx=14, pady=(0, 8))
+        self.progress_bar = ttk.Progressbar(actions_frame, variable=self.progress_var, maximum=100, style='Accent.Horizontal.TProgressbar')
+        self.progress_bar.pack(fill="x", pady=(6, 0))
+
+        columns_frame = ttk.Frame(left_col, style='Section.TFrame')
+        columns_frame.pack(fill="both", expand=True, padx=8, pady=(0, 12))
+        for idx in range(3):
+            columns_frame.columnconfigure(idx, weight=1)
+        columns_frame.rowconfigure(0, weight=1)
+
+        tips_panel = ttk.LabelFrame(columns_frame, text="Tips", style='Section.TLabelframe')
+        tips_panel.grid(row=0, column=0, sticky="nsew", padx=4, pady=4)
+        tips_panel.columnconfigure(0, weight=1)
+        tips_panel.rowconfigure(2, weight=1)
+        ttk.Button(tips_panel, text="Load Tips Files", command=self.load_tips_files).grid(row=0, column=0, sticky="ew", padx=6, pady=(10, 4))
+        ttk.Button(tips_panel, text="Add empty Tips compilation", command=self.add_empty_tips_compilation).grid(row=1, column=0, sticky="ew", padx=6, pady=4)
+        self.container_tips = ScrollableFrame(tips_panel, style='Section.TFrame', frame_style='Section.TFrame')
+        self.container_tips.grid(row=2, column=0, sticky="nsew", padx=6, pady=(6, 10))
+
+        hooks_panel = ttk.LabelFrame(columns_frame, text="Hooks", style='Section.TLabelframe')
+        hooks_panel.grid(row=0, column=1, sticky="nsew", padx=4, pady=4)
+        hooks_panel.columnconfigure(0, weight=1)
+        hooks_panel.rowconfigure(2, weight=1)
+        ttk.Button(hooks_panel, text="Load Hooks Files", command=self.load_hooks_files).grid(row=0, column=0, sticky="ew", padx=6, pady=(10, 4))
+        ttk.Button(hooks_panel, text="Add empty Hooks compilation", command=self.add_empty_hooks_compilation).grid(row=1, column=0, sticky="ew", padx=6, pady=4)
+        self.container_hooks = ScrollableFrame(hooks_panel, style='Section.TFrame', frame_style='Section.TFrame')
+        self.container_hooks.grid(row=2, column=0, sticky="nsew", padx=6, pady=(6, 10))
+
+        intros_panel = ttk.LabelFrame(columns_frame, text="Intros", style='Section.TLabelframe')
+        intros_panel.grid(row=0, column=2, sticky="nsew", padx=4, pady=4)
+        intros_panel.columnconfigure(0, weight=1)
+        intros_panel.rowconfigure(1, weight=1)
+        buttons_intro = ttk.Frame(intros_panel, style='Section.TFrame')
+        buttons_intro.grid(row=0, column=0, sticky="ew", padx=6, pady=(10, 4))
+        buttons_intro.columnconfigure(0, weight=1)
+        ttk.Button(buttons_intro, text="Load Intro Files", command=self.load_intro_files).grid(row=0, column=0, sticky="ew")
+        ttk.Button(buttons_intro, text="Clear Intros", command=self.clear_intro_files).grid(row=1, column=0, sticky="ew", pady=(4, 0))
+        self.container_intros = ScrollableFrame(intros_panel, style='Section.TFrame', frame_style='Section.TFrame')
+        self.container_intros.grid(row=1, column=0, sticky="nsew", padx=6, pady=(6, 10))
 
         # PRAWA KOLUMNA: SequenceCompilationsManager
         self.sequence_manager = SequenceCompilationsManager(

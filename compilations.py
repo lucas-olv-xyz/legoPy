@@ -18,6 +18,9 @@ INTRO_SUFFIX_PATTERN = re.compile(r"I\d+$", re.IGNORECASE)
 class FileItem(tk.Frame):
     def __init__(self, parent, filepath, move_up_cb, move_down_cb, delete_cb):
         super().__init__(parent)
+        style = ttk.Style()
+        bg = style.lookup('Section.TFrame', 'background') or style.lookup('TFrame', 'background') or parent.winfo_toplevel().cget('bg')
+        self.configure(bg=bg)
         self.filepath = filepath
         self.label = ttk.Label(self, text=os.path.basename(filepath), width=40, anchor="w")
         self.label.grid(row=0, column=0, sticky="w")
@@ -30,22 +33,65 @@ class FileItem(tk.Frame):
 
 class ScrollableFrame(ttk.Frame):
     def __init__(self, container, *args, **kwargs):
+        frame_style = kwargs.pop("frame_style", None)
+        canvas_bg = kwargs.pop("canvas_bg", None)
+        requested_style = kwargs.get("style")
         super().__init__(container, *args, **kwargs)
-        canvas = tk.Canvas(self)
-        scrollbar = ttk.Scrollbar(self, orient="vertical", command=canvas.yview)
-        self.scrollable_frame = ttk.Frame(canvas)
+
+        style = ttk.Style()
+        if canvas_bg is None and frame_style:
+            canvas_bg = style.lookup(frame_style, 'background')
+        if canvas_bg is None:
+            base_style = requested_style or frame_style or 'TFrame'
+            canvas_bg = style.lookup(base_style, 'background') or style.lookup('TFrame', 'background') or self.winfo_toplevel().cget('bg')
+
+        self.canvas = tk.Canvas(self, highlightthickness=0, borderwidth=0, background=canvas_bg)
+        self.canvas.pack(side="left", fill="both", expand=True)
+        self.scrollbar = ttk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
+        self.scrollbar.pack(side="right", fill="y")
+
+        self.scrollable_frame = ttk.Frame(self.canvas, style=frame_style) if frame_style else ttk.Frame(self.canvas)
         self.scrollable_frame.bind(
             "<Configure>",
-            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+            lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all"))
         )
-        canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
-        canvas.configure(yscrollcommand=scrollbar.set)
-        canvas.pack(side="left", fill="both", expand=True)
-        scrollbar.pack(side="right", fill="y")
+        self.window_id = self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+        self.canvas.configure(yscrollcommand=self.scrollbar.set)
+
+        self._mousewheel_bound = False
+        self.scrollable_frame.bind("<Enter>", self._bind_mousewheel)
+        self.scrollable_frame.bind("<Leave>", self._unbind_mousewheel)
+        self.canvas.bind("<Enter>", self._bind_mousewheel)
+        self.canvas.bind("<Leave>", self._unbind_mousewheel)
+
+    def _on_mousewheel(self, event):
+        if event.delta:
+            self.canvas.yview_scroll(int(-event.delta / 120), "units")
+        elif getattr(event, 'num', None) == 4:
+            self.canvas.yview_scroll(-1, "units")
+        elif getattr(event, 'num', None) == 5:
+            self.canvas.yview_scroll(1, "units")
+        return "break"
+
+    def _bind_mousewheel(self, _event=None):
+        if not self._mousewheel_bound:
+            self.canvas.bind_all("<MouseWheel>", self._on_mousewheel)
+            self.canvas.bind_all("<Button-4>", self._on_mousewheel)
+            self.canvas.bind_all("<Button-5>", self._on_mousewheel)
+            self._mousewheel_bound = True
+
+    def _unbind_mousewheel(self, _event=None):
+        if self._mousewheel_bound:
+            self.canvas.unbind_all("<MouseWheel>")
+            self.canvas.unbind_all("<Button-4>")
+            self.canvas.unbind_all("<Button-5>")
+            self._mousewheel_bound = False
+
 
 class BaseCompilationFrame(ttk.LabelFrame):
     def __init__(self, parent, index, on_delete_callback, files=None, allow_rename=True, name=None, duplicate_callback=None, export_checkbox=False):
         super().__init__(parent)
+        self.configure(style='Section.TLabelframe')
         self.files = [os.path.abspath(f) for f in files] if files else []
         self.on_delete_callback = on_delete_callback
         self.duplicate_callback = duplicate_callback
@@ -62,7 +108,7 @@ class BaseCompilationFrame(ttk.LabelFrame):
             ttk.Button(self, text="Duplicate", command=self.duplicate).grid(row=0, column=3, padx=2, pady=4, sticky="e")
         if export_checkbox:
             ttk.Checkbutton(self, text="Export", variable=self.export_var).grid(row=0, column=4, padx=2, pady=4)
-        self.files_frame = ttk.Frame(self)
+        self.files_frame = ttk.Frame(self, style='Section.TFrame')
         self.files_frame.grid(row=1, column=0, columnspan=5, sticky="ew")
         self._refresh_file_items()
         self.btn_add = ttk.Button(self, text="Add files", command=self.add_files_dialog)
@@ -163,6 +209,7 @@ class BaseCompilationFrame(ttk.LabelFrame):
 class CompilationFrame(ttk.LabelFrame):
     def __init__(self, parent, index, on_delete_callback, files=None, allow_rename=True, name=None, duplicate_callback=None, export_checkbox=False):
         super().__init__(parent)
+        self.configure(style='Section.TLabelframe')
         self.files = [os.path.abspath(f) for f in files] if files else []
         self.on_delete_callback = on_delete_callback
         self.duplicate_callback = duplicate_callback
@@ -179,7 +226,7 @@ class CompilationFrame(ttk.LabelFrame):
             ttk.Button(self, text="Duplicate", command=self.duplicate).grid(row=0, column=3, padx=2, pady=4, sticky="e")
         if export_checkbox:
             ttk.Checkbutton(self, text="Export", variable=self.export_var).grid(row=0, column=4, padx=2, pady=4)
-        self.files_frame = ttk.Frame(self)
+        self.files_frame = ttk.Frame(self, style='Section.TFrame')
         self.files_frame.grid(row=1, column=0, columnspan=5, sticky="ew")
         self._refresh_file_items()
         self.btn_add = ttk.Button(self, text="Add files", command=self.add_files_dialog)
@@ -306,22 +353,22 @@ class SequenceCompilationsManager:
 
         self.export_tips_callback = export_tips_callback
 
-        button_frame = ttk.Frame(parent)
+        button_frame = ttk.Frame(parent, style='Section.TFrame')
         button_frame.pack(fill="x", pady=(10, 0))
-        ttk.Label(button_frame, text="Sequence Compilations", font=("Arial", 15, "bold")).pack(anchor="center")
-        self.btn_add_empty_sequence = ttk.Button(button_frame, text="Add Empty Sequence Compilation", command=self.add_empty_sequence)
-        self.btn_add_empty_sequence.pack(pady=5)
-        self.container_sequences = ScrollableFrame(parent)
+        ttk.Label(button_frame, text="Sequence Compilations", font=("Arial", 15, "bold"), style='SectionHeading.TLabel').pack(anchor="center")
+        self.btn_add_empty_sequence = ttk.Button(button_frame, text="Add Empty Sequence Compilation", command=self.add_empty_sequence, style='Accent.TButton')
+        self.btn_add_empty_sequence.pack(pady=5, fill="x")
+        self.container_sequences = ScrollableFrame(parent, style='Section.TFrame', frame_style='Section.TFrame')
         self.container_sequences.pack(fill="both", expand=True, padx=5, pady=5)
-        self.progress_bar = ttk.Progressbar(parent, variable=self.progress_var, maximum=100)
+        self.progress_bar = ttk.Progressbar(parent, variable=self.progress_var, maximum=100, style='Accent.Horizontal.TProgressbar')
         self.progress_bar.pack(side="bottom", fill="x", padx=20, pady=(0,2))
-        export_frame = ttk.Frame(parent)
+        export_frame = ttk.Frame(parent, style='Section.TFrame')
         export_frame.pack(side="bottom", fill="x", padx=20, pady=(2, 12))
         if callable(self.export_tips_callback):
-            self.btn_export_tips = ttk.Button(export_frame, text="Export Tips Compilations", command=self.export_tips_compilations)
-            self.btn_export_tips.pack(anchor="center", pady=(0, 4))
-        self.btn_export_sequences = ttk.Button(export_frame, text="Export Sequence Compilations", command=self.export_sequences)
-        self.btn_export_sequences.pack(anchor="center")
+            self.btn_export_tips = ttk.Button(export_frame, text="Export Tips Compilations", command=self.export_tips_compilations, style='Accent.TButton')
+            self.btn_export_tips.pack(anchor="center", pady=(0, 4), fill="x")
+        self.btn_export_sequences = ttk.Button(export_frame, text="Export Sequence Compilations", command=self.export_sequences, style='Accent.TButton')
+        self.btn_export_sequences.pack(anchor="center", fill="x")
 
     def _determine_sequence_base_name(self, primary_file, fallback_hook_idx, variant_idx=0):
         project_code = (self.get_project_code() or "E000").strip() or "E000"

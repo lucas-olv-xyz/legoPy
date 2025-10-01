@@ -9,6 +9,7 @@ import subprocess
 class ManualCompilationFrame(ttk.LabelFrame):
     def __init__(self, parent, title, files, on_delete_callback, allow_rename=True, duplicate_callback=None, export_checkbox=True):
         super().__init__(parent)
+        self.configure(style='Section.TLabelframe')
         self.on_delete_callback = on_delete_callback
         self.files = [os.path.abspath(f) for f in files if f]
         self.file_items = []
@@ -24,7 +25,7 @@ class ManualCompilationFrame(ttk.LabelFrame):
             ttk.Button(self, text="Duplicate", command=self.duplicate).grid(row=0, column=3, padx=2, pady=4, sticky="e")
         if export_checkbox:
             ttk.Checkbutton(self, text="Export", variable=self.export_var).grid(row=0, column=4, padx=2, pady=4)
-        self.files_frame = ttk.Frame(self)
+        self.files_frame = ttk.Frame(self, style='Section.TFrame')
         self.files_frame.grid(row=1, column=0, columnspan=5, sticky="ew")
         self._refresh_file_items()
         self.btn_add = ttk.Button(self, text="Add files", command=self.add_files_dialog)
@@ -114,6 +115,7 @@ import platform
 class NextBatchFrame(ttk.Frame):
     def __init__(self, parent, back_callback, get_project_code):
         super().__init__(parent)
+        self.configure(style='App.TFrame')
         self.get_project_code = get_project_code
         self.compilation_frames = []
         self.hooks_compilation_frames = []
@@ -121,58 +123,55 @@ class NextBatchFrame(ttk.Frame):
         self.hooks_files = []
         self.generated_from_table = []
 
-        # Główna ramka na 3 kolumny
-        main = ttk.Frame(self)
+        # Main container split into three columns
+        main = ttk.Frame(self, style='App.TFrame')
         main.pack(fill="both", expand=True, padx=10, pady=10)
-        main.columnconfigure(0, weight=1)  # Panel boczny
+        main.columnconfigure(0, weight=1)  # Side panel
         main.columnconfigure(1, weight=3)  # Without Hooks
         main.columnconfigure(2, weight=3)  # With Hooks
         main.rowconfigure(0, weight=1)
 
-        # LEWA kolumna - panel sterowania
-        left = ttk.Frame(main)
+        # Left column - control panel
+        left = ttk.Frame(main, style='Section.TFrame')
         left.grid(row=0, column=0, sticky="nsew")
-        ttk.Button(left, text="Back to Menu", command=back_callback).pack(anchor="nw", padx=8, pady=(10, 2))
-        ttk.Label(left, text="Next Batch Tools", font=("Arial", 15, "bold")).pack(pady=(8,8))
-        self.btn_load_tips = ttk.Button(left, text="Load Tips Files", command=self.load_tips_files)
+        ttk.Button(left, text="Back to Menu", command=back_callback, style='Accent.TButton').pack(anchor="nw", padx=8, pady=(10, 2))
+        ttk.Label(left, text="Next Batch Tools", font=("Arial", 15, "bold"), style='SectionHeading.TLabel').pack(pady=(8, 8))
+        self.btn_load_tips = ttk.Button(left, text="Load Tips Files", command=self.load_tips_files, style='Accent.TButton')
         self.btn_load_tips.pack(pady=5, fill="x")
-        self.btn_load_hooks = ttk.Button(left, text="Load Hooks Files", command=self.load_hooks_files)
+        self.btn_load_hooks = ttk.Button(left, text="Load Hooks Files", command=self.load_hooks_files, style='Accent.TButton')
         self.btn_load_hooks.pack(pady=5, fill="x")
         self.btn_add_manual = ttk.Button(left, text="Add Empty Compilation", command=self.add_empty_compilation)
         self.btn_add_manual.pack(pady=5, fill="x")
-        self.btn_export_sequences = ttk.Button(left, text="Export All", command=self.export_sequences)
+        self.btn_export_sequences = ttk.Button(left, text="Export All", command=self.export_sequences, style='Accent.TButton')
         self.btn_export_sequences.pack(pady=10, fill="x")
         self.progress_var = tk.DoubleVar()
-        self.progress_bar = ttk.Progressbar(left, variable=self.progress_var, maximum=100)
-        self.progress_bar.pack(fill="x", padx=2, pady=(0,10))
-        # ...panel boczny left...
-        self.columns_var = tk.StringVar(value="2")  # domyślnie 2 kolumny
+        self.progress_bar = ttk.Progressbar(left, variable=self.progress_var, maximum=100, style='Accent.Horizontal.TProgressbar')
+        self.progress_bar.pack(fill="x", padx=2, pady=(0, 10))
+        self.columns_var = tk.StringVar(value="2")  # default to 2 columns
         ttk.Label(left, text="Columns (Without Hooks):").pack(pady=(10, 0))
         self.columns_entry = ttk.Entry(left, textvariable=self.columns_var, width=4, justify="center")
         self.columns_entry.pack(pady=(0, 8))
-
-        # Dodaj guzik do zatwierdzania, ale możesz też wykonać relayout przy każdej zmianie
         ttk.Button(left, text="Apply Columns", command=self.on_change_columns).pack(pady=(0, 10))
 
-        # ŚRODKOWA kolumna - WITHOUT HOOKS
-        center = ttk.Frame(main, relief="solid", borderwidth=1)
-        center.grid(row=0, column=1, sticky="nsew", padx=(8,4), pady=4)
+        # Middle column - without hooks
+        center = ttk.Frame(main, style='Section.TFrame', relief="solid", borderwidth=1)
+        center.grid(row=0, column=1, sticky="nsew", padx=(8, 4), pady=4)
         center.rowconfigure(0, weight=1)
         center.columnconfigure(0, weight=1)
-        self.label_no_hooks = ttk.Label(center, text="Without Hooks", font=("Arial", 16, "bold"))
+        self.label_no_hooks = ttk.Label(center, text="Without Hooks", font=("Arial", 16, "bold"), style='SectionHeading.TLabel')
         self.label_no_hooks.grid(row=0, column=0, padx=8, pady=(10, 3), sticky="w")
-        self.container = ttk.Frame(center)
+        self.container = ttk.Frame(center, style='Section.TFrame')
         self.container.grid(row=0, column=0, sticky="nsew", padx=10, pady=4)
 
-        # PRAWA kolumna - WITH HOOKS
-        right = ttk.Frame(main, relief="solid", borderwidth=1)
-        right.grid(row=0, column=2, sticky="nsew", padx=(4,8), pady=4)
+        # Right column - with hooks
+        right = ttk.Frame(main, style='Section.TFrame', relief="solid", borderwidth=1)
+        right.grid(row=0, column=2, sticky="nsew", padx=(4, 8), pady=4)
         right.rowconfigure(0, weight=1)
         right.columnconfigure(0, weight=1)
-        self.label_with_hooks = ttk.Label(right, text="With Hooks", font=("Arial", 16, "bold"))
+        self.label_with_hooks = ttk.Label(right, text="With Hooks", font=("Arial", 16, "bold"), style='SectionHeading.TLabel')
         self.label_with_hooks.pack(padx=8, pady=(10, 3))
-        self.hooks_container = ScrollableFrame(right)
-        self.hooks_container.pack(fill="both", expand=True, padx=10, pady=(4,10))
+        self.hooks_container = ScrollableFrame(right, style='Section.TFrame', frame_style='Section.TFrame')
+        self.hooks_container.pack(fill="both", expand=True, padx=10, pady=(4, 10))
 
         # (opcjonalnie: guzik do dodawania pustej kompilacji do "With Hooks")
         # self.btn_add_empty_hook_comp = ttk.Button(right, text="Add Empty Compilation (With Hook)", command=self.add_empty_hook_compilation)
