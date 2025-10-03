@@ -92,7 +92,8 @@ class FirstBatchFrame(ttk.Frame):
             get_tips_compilations=lambda: self.compilations,
             get_project_code=self.get_project_code,
             get_intro_files=lambda: self.intro_files,
-            export_tips_callback=self.start_processing_thread
+            export_tips_callback=self.start_processing_thread,
+            get_sequence_tip_files=lambda: select_preferred_tip_variants(self.compilations[0].files) if (self.compilations and self.compilations[0].files) else [],
         )
 
         # --- DODAJ TO: --- (po sequence_manager!)
@@ -113,7 +114,8 @@ class FirstBatchFrame(ttk.Frame):
             self.container_tips.scrollable_frame,
             len(self.compilations),
             on_delete_callback=self.remove_tips_compilation,
-            allow_rename=True
+            allow_rename=True,
+            prefix_files_provider=lambda: self.intro_files,
         )
         comp.pack(fill="x", pady=5)
         self.compilations.append(comp)
@@ -124,7 +126,9 @@ class FirstBatchFrame(ttk.Frame):
             self.container_hooks.scrollable_frame,
             len(self.hooks_compilations),
             on_delete_callback=self.remove_hooks_compilation,
-            allow_rename=True
+            allow_rename=True,
+            prefix_files_provider=lambda: self.intro_files,
+            insert_prefix_after_first=True,
         )
         comp.pack(fill="x", pady=5)
         self.hooks_compilations.append(comp)
@@ -136,20 +140,24 @@ class FirstBatchFrame(ttk.Frame):
         if not filepaths:
             return
         all_paths = [os.path.abspath(path) for path in filepaths]
-        filtered_paths = select_preferred_tip_variants(all_paths)
+        filtered_paths, extra_variants = select_preferred_tip_variants(all_paths, return_extras=True)
         if not filtered_paths:
             messagebox.showwarning("Warning", "No Tips files selected after applying naming rules.")
             return
         self.clear_all_compilations()
+        extras = list(extra_variants)
         n = len(filtered_paths)
         for i in range(n):
             rotated = filtered_paths[i:] + filtered_paths[:i]
             comp = CompilationFrame(
                 self.container_tips.scrollable_frame, i,
                 on_delete_callback=self.remove_tips_compilation,
-                allow_rename=False
+                allow_rename=False,
+                prefix_files_provider=lambda: self.intro_files,
             )
             comp.add_files(rotated)
+            if extras:
+                comp.add_files(extras)
             comp.pack(fill="x", pady=5)
             self.compilations.append(comp)
         self.sync_hooks_with_tips1()
@@ -174,7 +182,9 @@ class FirstBatchFrame(ttk.Frame):
             comp = CompilationFrame(
                 self.container_hooks.scrollable_frame, i,
                 on_delete_callback=self.remove_hooks_compilation,
-                allow_rename=False
+                allow_rename=False,
+                prefix_files_provider=lambda: self.intro_files,
+                insert_prefix_after_first=True,
             )
             comp.add_file(hook_file)
             comp.pack(fill="x", pady=5)

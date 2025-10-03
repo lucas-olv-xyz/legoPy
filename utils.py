@@ -36,14 +36,33 @@ def format_for_ffmpeg_concat(path: str) -> str:
     return formatted.replace("'", "'\\''")
 
 TIP_VARIANT_PATTERN = re.compile(r"T(\d+)([a-z]?)", re.IGNORECASE)
+
 PARTS_REAL_LENGTH_SUFFIX = "_Parts_RealLength"
+SUFFIXES_FOR_PROJECT = (
+    PARTS_REAL_LENGTH_SUFFIX,
+    "_Sequences_RealLength",
+    "_Parts_2min",
+)
 
 
-def select_preferred_tip_variants(filepaths):
-    """Return a list filtered to the first alphabetical variant for each T id."""
+def _remove_suffix_casefold(name: str, suffix: str):
+    if len(name) < len(suffix):
+        return None
+    if name.lower().endswith(suffix.lower()):
+        return name[:-len(suffix)]
+    return None
+
+
+
+def select_preferred_tip_variants(filepaths, return_extras=False):
+    """Return a list filtered to the first alphabetical variant for each T id.
+
+    When return_extras is True, also return the skipped variant files in the order they
+    appeared."""
     selected = {}
+    extras = []
     if not filepaths:
-        return []
+        return ([], []) if return_extras else []
     for idx, path in enumerate(filepaths):
         base = os.path.splitext(os.path.basename(path))[0]
         match = TIP_VARIANT_PATTERN.search(base)
@@ -54,10 +73,40 @@ def select_preferred_tip_variants(filepaths):
             key = base.upper()
             letter = ''
         info = selected.get(key)
-        if info is None or letter < info['letter'] or (letter == info['letter'] and idx < info['index']):
+        if info is None:
             selected[key] = {'letter': letter, 'path': path, 'index': idx}
+            continue
+        should_replace = letter < info['letter'] or (letter == info['letter'] and idx < info['index'])
+        if should_replace:
+            extras.append((info['index'], info['path']))
+            selected[key] = {'letter': letter, 'path': path, 'index': idx}
+        else:
+            extras.append((idx, path))
     ordered = sorted(selected.values(), key=lambda item: item['index'])
-    return [item['path'] for item in ordered]
+    preferred = [item['path'] for item in ordered]
+    if return_extras:
+        extras_sorted = [item[1] for item in sorted(extras, key=lambda pair: pair[0])]
+        return preferred, extras_sorted
+    return preferred
+
+
+
+
+
+def infer_project_prefix(source_path, fallback=''):
+    if source_path:
+        directory = os.path.dirname(os.path.abspath(source_path))
+        base_name = os.path.basename(directory).rstrip('/\\')
+        for suffix in SUFFIXES_FOR_PROJECT:
+            stripped = _remove_suffix_casefold(base_name, suffix)
+            if stripped is not None:
+                return stripped.rstrip('_')
+    fallback_clean = ''.join(ch for ch in (fallback or '') if ch.isalnum() or ch in {'_', '-'})
+    fallback_clean = fallback_clean.rstrip('_')
+    if fallback_clean:
+        return fallback_clean.upper()
+    return 'E000'
+
 
 
 def resolve_export_roots(first_file_path):
@@ -67,19 +116,23 @@ def resolve_export_roots(first_file_path):
     absolute = os.path.abspath(first_file_path)
     base_dir = os.path.dirname(absolute)
     base_name = os.path.basename(base_dir).rstrip('/\\')
-    suffix = PARTS_REAL_LENGTH_SUFFIX
-    if base_name.endswith(suffix):
-        prefix = base_name[:-len(suffix)]
-        root_dir = os.path.dirname(base_dir)
-        prefix = prefix.rstrip('_')
-    else:
-        prefix = base_name.rstrip('_')
-        root_dir = base_dir
-    if not prefix:
-        prefix = 'Export'
-    parts_dir = os.path.join(root_dir, f"{prefix}_Parts_2min")
-    sequences_dir = os.path.join(root_dir, f"{prefix}_Sequences_RealLength")
+    root_dir = base_dir
+    prefix_candidate = None
+    for suffix in (PARTS_REAL_LENGTH_SUFFIX, "_Sequences_RealLength"):
+        stripped = _remove_suffix_casefold(base_name, suffix)
+        if stripped is not None:
+            prefix_candidate = stripped.rstrip('_')
+            root_dir = os.path.dirname(base_dir)
+            break
+    if prefix_candidate is None:
+        prefix_candidate = base_name.rstrip('_')
+    if not prefix_candidate:
+        prefix_candidate = 'Export'
+    parts_dir = os.path.join(root_dir, f"{prefix_candidate}_Parts_2min")
+    sequences_dir = os.path.join(root_dir, f"{prefix_candidate}_Sequences_RealLength")
     return parts_dir, sequences_dir
+
+
 
 
 def get_ffmpeg_path():

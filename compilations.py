@@ -10,7 +10,8 @@ from utils import (
     resolve_export_roots,
     safe_filename,
     get_ffmpeg_path,
-    format_for_ffmpeg_concat
+    format_for_ffmpeg_concat,
+    infer_project_prefix,
 )
 
 H_SEGMENT_PATTERN = re.compile(r"H(\d+[a-z]?|\([^)]*\))", re.IGNORECASE)
@@ -18,70 +19,37 @@ VARIANT_SEGMENT_PATTERN = re.compile(r"V(\d+[A-Za-z]?)", re.IGNORECASE)
 INTRO_SUFFIX_PATTERN = re.compile(r"I\d+$", re.IGNORECASE)
 
 
-def determine_sequence_base_name(project_code, primary_file, fallback_hook_idx, variant_idx=0):
-    raw_project = (project_code or "E000").strip() or "E000"
-    project_filtered = ''.join(ch for ch in raw_project if ch.isalnum() or ch == '_') or 'E000'
-    project_code_clean = project_filtered.upper()
-    fallback_variant = f"V{variant_idx}"
-    fallback_hook = f"H{fallback_hook_idx}"
 
-    variant_segment = fallback_variant
-    hook_segment = fallback_hook
-    extra_tokens = []
+def determine_sequence_base_name(project_code, primary_file, fallback_hook_idx, variant_idx=0):
+    project_slug = infer_project_prefix(primary_file, project_code)
+    project_slug = (project_slug or 'E000').strip('_') or 'E000'
 
     base_name = ''
     if primary_file:
         base_name = os.path.splitext(os.path.basename(primary_file))[0].strip()
 
-    variant_match = VARIANT_SEGMENT_PATTERN.search(base_name) if base_name else None
-    if variant_match:
-        variant_segment = f"V{variant_match.group(1)}"
-
-    hook_match = H_SEGMENT_PATTERN.search(base_name) if base_name else None
-    if hook_match:
-        hook_segment = f"H{hook_match.group(1)}"
-
+    variant_segment = None
+    hook_segment = None
     if base_name:
-        tokens = [token for token in base_name.split('_') if token]
-        project_pattern = re.compile(re.escape(project_filtered), re.IGNORECASE)
-        for token in tokens:
-            cleaned = token.strip()
-            if not cleaned:
-                continue
-            cleaned = project_pattern.sub('', cleaned, count=1)
-            if variant_match:
-                cleaned = cleaned.replace(variant_match.group(0), '', 1)
-            if hook_match:
-                cleaned = cleaned.replace(hook_match.group(0), '', 1)
-            cleaned = cleaned.strip('_')
-            cleaned = cleaned.strip()
-            if not cleaned or cleaned.upper() == 'T_EN':
-                continue
-            extra_tokens.append(cleaned)
+        variant_match = VARIANT_SEGMENT_PATTERN.search(base_name)
+        if variant_match:
+            variant_segment = variant_match.group(1)
+        hook_match = H_SEGMENT_PATTERN.search(base_name)
+        if hook_match:
+            hook_segment = hook_match.group(1)
 
-    if not variant_segment or len(variant_segment) == 1:
-        variant_segment = f"V{variant_idx}"
-    if not variant_segment.upper().startswith('V'):
-        variant_segment = f"V{variant_segment}"
+    if variant_segment:
+        variant_code = f"V{variant_segment}".upper()
+    else:
+        variant_code = f"V{variant_idx}".upper()
 
-    if not hook_segment or not hook_segment.upper().startswith('H'):
-        hook_segment = f"H{fallback_hook_idx}"
+    if hook_segment:
+        hook_code = f"H{hook_segment}".upper()
+    else:
+        hook_code = f"H{fallback_hook_idx}".upper()
 
-    combined_segment = f"{variant_segment}{hook_segment}"
-    parts = [project_code_clean, combined_segment]
-    parts.extend(extra_tokens)
-    if not any(part.upper() == 'T_EN' for part in parts):
-        parts.append('T_EN')
-
-    candidate = '_'.join(part for part in parts if part)
-
-    if not VARIANT_SEGMENT_PATTERN.search(candidate):
-        candidate = candidate.replace(project_code_clean, f"{project_code_clean}_V{variant_idx}", 1)
-
-    if not H_SEGMENT_PATTERN.search(candidate):
-        candidate = candidate.replace('_T_EN', f"_H{fallback_hook_idx}_T_EN")
-
-    return candidate
+    combined = f"{variant_code}{hook_code}"
+    return f"{project_slug}_{combined}_T_EN"
 
 
 def build_sequence_name(base_name, intro_idx=None, project_code=None):
@@ -292,13 +260,15 @@ class BaseCompilationFrame(ttk.LabelFrame):
             return False
 
 class CompilationFrame(ttk.LabelFrame):
-    def __init__(self, parent, index, on_delete_callback, files=None, allow_rename=True, name=None, duplicate_callback=None, export_checkbox=False):
+    def __init__(self, parent, index, on_delete_callback, files=None, allow_rename=True, name=None, duplicate_callback=None, export_checkbox=False, prefix_files_provider=None, insert_prefix_after_first=False):
         super().__init__(parent)
         self.configure(style='Section.TLabelframe')
         self.files = [os.path.abspath(f) for f in files] if files else []
         self.on_delete_callback = on_delete_callback
         self.duplicate_callback = duplicate_callback
         self.export_var = tk.BooleanVar(value=True) if export_checkbox else None
+        self.prefix_files_provider = prefix_files_provider
+        self.insert_prefix_after_first = insert_prefix_after_first
         # Nazwa do edycji, ale nie jest używana przy eksporcie tipsów!
         self.name_var = tk.StringVar(value=name or f"Compilation {index+1}")
         self.name_entry = ttk.Entry(self, textvariable=self.name_var, width=28)
@@ -367,7 +337,6 @@ class CompilationFrame(ttk.LabelFrame):
         try:
             first_file = self.files[0]
             # Nazwa pliku wynikowego: nazwa pliku + _(MM'SS).mp4
-            from utils import get_video_duration, concat_and_trim_videos, ensure_folder_for_export
             total_duration = get_video_duration(first_file)
             mm = int(total_duration // 60)
             ss = int(total_duration % 60)
@@ -375,7 +344,24 @@ class CompilationFrame(ttk.LabelFrame):
             output_name = f"{base_name}_({mm:02d}'{ss:02d}).mp4"
             out_dir = ensure_folder_for_export(first_file, folder_name="2min")
             output_path = os.path.join(out_dir, output_name)
-            concat_and_trim_videos(self.files, output_path, duration_sec=120)
+
+            export_sequence = list(self.files)
+            prefix_files = []
+            if callable(self.prefix_files_provider):
+                try:
+                    prefix_files = [os.path.abspath(p) for p in (self.prefix_files_provider() or []) if p]
+                except Exception:
+                    prefix_files = []
+            if prefix_files:
+                existing = {os.path.abspath(p) for p in export_sequence}
+                ordered_prefix = [p for p in prefix_files if os.path.abspath(p) not in existing]
+                if ordered_prefix:
+                    if self.insert_prefix_after_first and export_sequence:
+                        export_sequence = [export_sequence[0]] + ordered_prefix + export_sequence[1:]
+                    else:
+                        export_sequence = ordered_prefix + export_sequence
+
+            concat_and_trim_videos(export_sequence, output_path, duration_sec=duration_sec)
             return True
         except Exception as e:
             with open(os.path.join(os.path.dirname(self.files[0]), "tips_export_error.log"), "a", encoding="utf-8") as logf:
@@ -427,13 +413,14 @@ class SequenceCompilationFrame(BaseCompilationFrame):
             return False
 
 class SequenceCompilationsManager:
-    def __init__(self, parent, get_global_resolution_ref, get_hooks_compilations, get_tips_compilations, get_project_code, get_intro_files=None, export_tips_callback=None):
+    def __init__(self, parent, get_global_resolution_ref, get_hooks_compilations, get_tips_compilations, get_project_code, get_intro_files=None, export_tips_callback=None, get_sequence_tip_files=None):
         self.parent = parent
         self.get_global_resolution_ref = get_global_resolution_ref
         self.get_hooks_compilations = get_hooks_compilations
         self.get_tips_compilations = get_tips_compilations
         self.get_project_code = get_project_code
         self.get_intro_files = get_intro_files or (lambda: [])
+        self.get_sequence_tip_files = get_sequence_tip_files
         self.sequence_frames = []
         self.progress_var = tk.DoubleVar()
 
@@ -528,10 +515,17 @@ class SequenceCompilationsManager:
         hooks_compilations = self.get_hooks_compilations()
         intro_files = list(self.get_intro_files() or [])
 
-        if not tips_compilations or not tips_compilations[0].files:
-            return
+        base_tip_files = []
+        if callable(getattr(self, "get_sequence_tip_files", None)):
+            try:
+                base_tip_files = list(self.get_sequence_tip_files() or [])
+            except Exception:
+                base_tip_files = []
+        if not base_tip_files and tips_compilations and tips_compilations[0].files:
+            base_tip_files = list(tips_compilations[0].files)
 
-        base_tip_files = list(tips_compilations[0].files)
+        if not base_tip_files:
+            return
 
         def append_sequence(name: str, files):
             seq_frame = SequenceCompilationFrame(
