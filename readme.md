@@ -1,55 +1,105 @@
-﻿# LegoPy Project Overview
+# LegoPy
 
-## What This App Does
+Aplicacao desktop para organizar e exportar sequencias de videos 'Tips' e 'Hooks' usando Tkinter e FFmpeg.
 
-- LegoPy is a desktop helper that stitches short "Tip" videos together with optional "Hook" clips for the same project code.
-- It keeps every compilation at or above two minutes, so each exported video matches our delivery rules.
-- Two workspaces cover the different stages of production: the first batch you send to clients and the follow-up batches you build later.
+## Visao Geral
 
-## Typical Workflow
+- Interface unica com dois fluxos de trabalho: montagem da primeira entrega (First Batch) e das entregas seguintes (Next Batch).
+- Garante que cada compilacao de Tips tenha duracao minima de dois minutos e respeite a combinacao correta de Hooks.
+- Integra FFmpeg/FFprobe portaveis (pasta ffmpeg-bin/) e aceita substituicao por binarios do sistema via variaveis de ambiente FFMPEG_PATH e FFPROBE_PATH.
+- Mantem logs de depuracao (duration_diag.log, ffmpeg_concat_diag.log, ffmpeg_trim_diag.log, etc.) ao lado dos arquivos de origem para facilitar suporte.
 
-1. Open the app and enter the project prefix letters (E, B, G, Z, P, etc.) plus the three digits. The number field auto-pads, so `1` becomes `001` and `99` becomes `099`.
-2. Choose **First Batch** for the very first delivery or **Next Batch** for follow-up rounds.
-3. Use the buttons to load Tip clips and, when needed, Hook clips from your computer.
-4. Review the lists, drag files up or down with the arrow buttons, and rename compilations when it helps communication.
-5. Press the export buttons. The app glues the clips together with FFmpeg (bundled with the project) and saves the finished videos into the correct folders.
+## Requisitos
 
-## Screens You Will See
+- Windows 10+ ou macOS/Linux com Python 3.10 ou superior.
+- Dependencias padroes da biblioteca Tkinter (incluida nas instalacoes oficiais do Python).
+- Nenhum pacote extra eh necessario: o projeto usa apenas biblioteca padrao e os binarios de FFmpeg inclusos.
 
-- **First Batch screen** - Automatically creates several Tip compilations by rotating the order of the files you load. You can now drop optional intro clips that get prepended to every generated sequence name (`_I0`, `_I1`, ...). You can still add empty compilations and build one manually if you prefer. A single click can export every Tip list and the matching Hook + Tip sequences.
-- **Next Batch screen** - Lets you curate each compilation by hand. You decide column layout, duplicate any compilation you like, and combine Hooks with Tips automatically. Only the compilations you mark for export are produced.
+## Como Executar
 
-## What Gets Exported
+~~~bash
+python -m legopy
+~~~
 
-- Tip compilations (with or without Hooks) are saved inside `<project>_Parts_2min`. When the sources live in `<project>_Parts_RealLength`, the app creates the 2-minute folder one level up; otherwise it sits alongside the source files.
-- All sequence compilations (First Batch and Next Batch) land in `<project>_Sequences_RealLength` with no extra `comp1/comp2` subfolders.
-- File names always start with the project code and include the full `V`/`H` segment plus the intro index (`I0`, `I1`, ...), for example `E123_V0H1I0_T_EN.mp4`.
+Ou, para compatibilidade com scripts antigos:
 
-## What's Inside This Repository
+~~~bash
+python main.py
+~~~
 
-- `main.py` - Launches the Tkinter window and swaps between the First Batch and Next Batch screens.
-- `first_batch_frame.py` - Screen logic for the first delivery.
-- `next_batch_frame.py` - Screen logic for subsequent deliveries.
-- `compilations.py` - Reusable widgets for file lists and the rules for exporting the videos.
-- `utils.py` - Helper functions that locate the FFmpeg tools, check video details, and handle folder creation.
-- `ffmpeg-bin/` - Portable FFmpeg and FFprobe executables used during export.
-- `exe/` - Everything related to the packaged executable (`build/`, `dist/`, and `main.spec`).
-- `venv/` - Optional Python virtual environment that keeps project dependencies separate.
-- `.idea/` - JetBrains IDE settings for teammates who use PyCharm.
+O aplicativo detecta automaticamente o prefixo do projeto (letras) e completa os digitos com zeros a esquerda.
 
-## Troubleshooting and Logs
+## Fluxos de Trabalho
 
-- If an export fails, the app writes a short log (`duration_diag.log`, `ffmpeg_concat_diag.log`, `ffmpeg_trim_diag.log`, `tips_export_error.log`, or `sequence_export_error.log`) next to the source clips. Check these files for clues.
-- A common reason for export failure is mixing clips that were rendered in different resolutions. The app stops early and shows a message if that happens.
+### First Batch
 
-## Requirements and How to Run
+1. Carregue os arquivos de Tips. O aplicativo cria varias compilacoes rotacionando a ordem dos clips.
+2. Opcionalmente carregue intros: elas sao adicionadas antes dos videos exportados.
+3. Carregue Hooks apos definir Tips. Cada Hook e sincronizado com a compilacao correspondente.
+4. Use "Export Tips Compilations" para gerar videos de dois minutos e "Export All" para criar as sequencias completas (Tips + Hooks).
 
-- Python 3 with Tkinter (already included in standard Python installs).
-- FFmpeg and FFprobe are already bundled inside `ffmpeg-bin/`, so no extra install is needed.
-- For development, activate the virtual environment if you use it and run `python main.py`.
-- For a packaged app, use the files under `exe/` or rebuild them with `pyinstaller exe/main.spec`.
+### Next Batch
 
-## Tips
+1. Carregue Tips e, quando houver, Hooks adicionais para o mesmo projeto.
+2. Monte compilacoes manuais com os botoes de adicionar, mover e duplicar.
+3. Marque apenas as listas que deseja exportar (checkbox "Export").
+4. Ajuste o numero de colunas exibidas e clique em "Export All" para gerar os arquivos finais.
 
-- Use the Export checkbox on each compilation to keep drafts in the list while exporting only the final selections.
-- When sharing the packaged app, always include the `ffmpeg-bin` folder so the export buttons keep working.
+## Estrutura do Projeto
+
+~~~
+legoPy/
++- legopy/
+   +- __init__.py
+   +- __main__.py
+   +- app.py
+   +- services/
+   |  +- __init__.py
+   |  +- media.py
+   +- ui/
+      +- __init__.py
+      +- first_batch.py
+      +- next_batch.py
+      +- compilation_widgets.py
++- main.py
++- compilations.py
++- first_batch_frame.py
++- next_batch_frame.py
++- utils.py
++- ffmpeg-bin/
++- exe/
+~~~
+
+## Principais Componentes
+
+- BatchSwitcherApp: janela principal que aplica o tema escuro, mostra o menu e alterna entre fluxos.
+- FirstBatchFrame: automatiza a criacao de compilacoes e sincroniza Hooks/Tips.
+- NextBatchFrame: oferece edicao manual, duplicacao e selecao de compilacoes para export.
+- SequenceCompilationsManager: centraliza exportacoes de sequencias e validacoes de resolucao.
+- Modulo services.media: localiza FFmpeg, calcula duracoes, concatena/recorta videos e resolve pastas de exportacao.
+
+## Exportacao de Arquivos
+
+- Compilacoes de Tips sao salvas em <projeto>_Parts_2min.
+- Sequencias (Tips + Hooks) sao salvas em <projeto>_Sequences_RealLength.
+- Nomes seguem o padrao <prefixo>_VxHy_Iz_T_EN.mp4, com indices adaptados automaticamente.
+
+## Empacotamento
+
+- Para gerar um executavel standalone, use o spec localizado em exe/main.spec:
+  ~~~bash
+  pyinstaller exe/main.spec
+  ~~~
+- Inclua a pasta ffmpeg-bin/ ao distribuir o executavel.
+
+## Desenvolvimento
+
+- Rode "python -m py_compile legopy/**/*.py" para validar sintaxe rapidamente.
+- Utilize o virtualenv incluso (venv/) se desejar isolar dependencias.
+- Logs de diagnostico sao escritos automaticamente quando FFmpeg ou FFprobe falham.
+
+## Suporte e Troubleshooting
+
+- Mensagens de erro sobre duracao ou resolucao indicam arquivos com propriedades diferentes. Verifique com a opcao get_video_resolution (menu Next Batch) antes de exportar.
+- Os arquivos *_error.log criados nas pastas de destino detalham o comando FFmpeg utilizado e as mensagens retornadas.
+- Caso FFmpeg nao seja encontrado, defina FFMPEG_PATH e FFPROBE_PATH apontando para executaveis validos ou mantenha a pasta ffmpeg-bin/ ao lado da aplicacao.
