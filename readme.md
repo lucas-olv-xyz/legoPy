@@ -1,4 +1,4 @@
-# LegoPy
+﻿# LegoPy
 
 Aplicacao desktop para organizar e exportar sequencias de videos 'Tips' e 'Hooks' usando Tkinter e FFmpeg.
 
@@ -17,15 +17,15 @@ Aplicacao desktop para organizar e exportar sequencias de videos 'Tips' e 'Hooks
 
 ## Como Executar
 
-~~~bash
+```bash
 python -m legopy
-~~~
+```
 
 Ou, para compatibilidade com scripts antigos:
 
-~~~bash
+```bash
 python main.py
-~~~
+```
 
 O aplicativo detecta automaticamente o prefixo do projeto (letras) e completa os digitos com zeros a esquerda.
 
@@ -47,7 +47,7 @@ O aplicativo detecta automaticamente o prefixo do projeto (letras) e completa os
 
 ## Estrutura do Projeto
 
-~~~
+```
 legoPy/
 +- legopy/
    +- __init__.py
@@ -68,7 +68,7 @@ legoPy/
 +- utils.py
 +- ffmpeg-bin/
 +- exe/
-~~~
+```
 
 ## Principais Componentes
 
@@ -80,26 +80,26 @@ legoPy/
 
 ## Exportacao de Arquivos
 
-- Compilacoes de Tips sao salvas em <projeto>_Parts_2min.
-- Sequencias (Tips + Hooks) sao salvas em <projeto>_Sequences_RealLength.
-- Nomes seguem o padrao <prefixo>_VxHy_Iz_T_EN.mp4, com indices adaptados automaticamente.
+- Compilacoes de Tips sao salvas em <projeto>\_Parts_2min.
+- Sequencias (Tips + Hooks) sao salvas em <projeto>\_Sequences_RealLength.
+- Nomes seguem o padrao <prefixo>\_VxHy_Iz_T_EN.mp4, com indices adaptados automaticamente.
 
 ## Empacotamento
 
 - Para gerar um executavel standalone, use o spec localizado em exe/main.spec:
-  ~~~bash
+  ```bash
   pyinstaller exe/main.spec
-  ~~~
+  ```
 - Inclua a pasta ffmpeg-bin/ ao distribuir o executavel.
 
 ## Desenvolvimento
 
-- Rode "python -m py_compile legopy/**/*.py" para validar sintaxe rapidamente.
+- Rode "python -m py\*compile legopy/\*\*/\_.py" para validar sintaxe rapidamente.
 - Utilize o virtualenv incluso (venv/) se desejar isolar dependencias.
 - Logs de diagnostico sao escritos automaticamente quando FFmpeg ou FFprobe falham.
 
 ## Suporte e Troubleshooting
 
 - Mensagens de erro sobre duracao ou resolucao indicam arquivos com propriedades diferentes. Verifique com a opcao get_video_resolution (menu Next Batch) antes de exportar.
-- Os arquivos *_error.log criados nas pastas de destino detalham o comando FFmpeg utilizado e as mensagens retornadas.
+- Os arquivos \*\_error.log criados nas pastas de destino detalham o comando FFmpeg utilizado e as mensagens retornadas.
 - Caso FFmpeg nao seja encontrado, defina FFMPEG_PATH e FFPROBE_PATH apontando para executaveis validos ou mantenha a pasta ffmpeg-bin/ ao lado da aplicacao.
