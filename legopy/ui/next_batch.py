@@ -1,6 +1,6 @@
 """Interface Tkinter para montar compilacoes manuais nas entregas seguintes."""
 
-from legopy.ui.compilation_widgets import ScrollableFrame, FileItem, determine_sequence_base_name, build_sequence_name
+from legopy.ui.compilation_widgets import ScrollableFrame, FileItem, determine_sequence_base_name, build_sequence_name, infer_intro_token
 from legopy.services.media import get_video_resolution, safe_filename, get_ffmpeg_path, resolve_export_roots, select_preferred_tip_variants, format_for_ffmpeg_concat
 from tkinter import ttk, messagebox, filedialog
 import tkinter as tk
@@ -245,7 +245,7 @@ class NextBatchFrame(ttk.Frame):
         if not filepaths:
             return
         all_paths = [os.path.abspath(path) for path in filepaths]
-        filtered_paths = select_preferred_tip_variants(all_paths)
+        filtered_paths = select_preferred_tip_variants(all_paths, keep_all_variants=True)
         if not filtered_paths:
             messagebox.showwarning("Warning", "No Tips files selected after applying naming rules.")
             return
@@ -442,7 +442,7 @@ class NextBatchFrame(ttk.Frame):
                 if not base_files:
                     continue
                 base_name = determine_sequence_base_name(project_code, hook_abs, fallback_hook_idx=hook_idx, variant_idx=idx)
-                frame_name = build_sequence_name(base_name, 0, project_code)
+                frame_name = build_sequence_name(base_name, None, project_code)
                 files = [hook_abs] + base_files
                 cf = ManualCompilationFrame(
                     self.hooks_container.scrollable_frame,
@@ -511,6 +511,10 @@ class NextBatchFrame(ttk.Frame):
 
     def export_sequences(self):
         intro_files = list(self.intro_files)
+        intro_entries = [
+            (idx, intro_path, infer_intro_token(intro_path, idx))
+            for idx, intro_path in enumerate(intro_files, start=1)
+        ]
         base_entries = [(idx, frame) for idx, frame in enumerate(self.compilation_frames) if frame.should_export()]
         hook_entries = [frame for frame in self.hooks_compilation_frames if frame.should_export()]
         if not base_entries and not hook_entries:
@@ -551,13 +555,23 @@ class NextBatchFrame(ttk.Frame):
         success = 0
 
         for idx, frame in base_entries:
-            base_name_seed = determine_sequence_base_name(project_code, frame.files[0] if frame.files else None, fallback_hook_idx=0, variant_idx=idx)
+            base_name_seed = determine_sequence_base_name(
+                project_code,
+                frame.files[0] if frame.files else None,
+                fallback_hook_idx=0,
+                variant_idx=idx,
+            )
             sequences = []
-            i0_name = build_sequence_name(base_name_seed, 0, project_code)
-            sequences.append((i0_name, list(frame.files)))
-            for intro_idx, intro_path in enumerate(intro_files, start=1):
-                seq_name = build_sequence_name(base_name_seed, intro_idx, project_code)
+            base_display = build_sequence_name(base_name_seed, None, project_code)
+            sequences.append((base_display, list(frame.files)))
+            for intro_idx, intro_path, intro_token in intro_entries:
                 seq_files = [intro_path] + list(frame.files)
+                seq_name = build_sequence_name(
+                    base_name_seed,
+                    intro_idx,
+                    project_code,
+                    intro_token=intro_token,
+                )
                 sequences.append((seq_name, seq_files))
             for name, files in sequences:
                 if self._export_sequence(files, name):
@@ -581,12 +595,28 @@ class NextBatchFrame(ttk.Frame):
                     hook_consumed = True
                     continue
                 tips.append(path)
-            base_name_seed = determine_sequence_base_name(project_code, hook_abs, fallback_hook_idx=getattr(frame, 'hook_index', 0), variant_idx=getattr(frame, 'variant_index', 0))
-            base_display_name = build_sequence_name(frame.get_name() or base_name_seed, 0, project_code)
+            base_name_seed = determine_sequence_base_name(
+                project_code,
+                hook_abs,
+                fallback_hook_idx=getattr(frame, 'hook_index', 0),
+                variant_idx=getattr(frame, 'variant_index', 0),
+            )
+            name_override = (frame.get_name() or "").strip()
+            if name_override:
+                base_display_name = name_override
+                build_seed = name_override
+            else:
+                base_display_name = build_sequence_name(base_name_seed, None, project_code)
+                build_seed = base_name_seed
             sequences = []
             sequences.append((base_display_name, [hook_abs] + list(tips)))
-            for intro_idx, intro_path in enumerate(intro_files, start=1):
-                seq_name = build_sequence_name(base_display_name, intro_idx, project_code)
+            for intro_idx, intro_path, intro_token in intro_entries:
+                seq_name = build_sequence_name(
+                    build_seed,
+                    intro_idx,
+                    project_code,
+                    intro_token=intro_token,
+                )
                 seq_files = [hook_abs, intro_path] + list(tips)
                 sequences.append((seq_name, seq_files))
             for name, files in sequences:

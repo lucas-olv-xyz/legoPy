@@ -8,7 +8,7 @@ from tkinter import ttk, messagebox, filedialog
 import tkinter as tk
 import threading
 import os
-from legopy.services.media import select_preferred_tip_variants
+from legopy.services.media import select_preferred_tip_variants, export_clip_to_2min
 
 def format_first_file_duration(duration):
     m = int(duration // 60)
@@ -142,7 +142,11 @@ class FirstBatchFrame(ttk.Frame):
         if not filepaths:
             return
         all_paths = [os.path.abspath(path) for path in filepaths]
-        filtered_paths, extra_variants = select_preferred_tip_variants(all_paths, return_extras=True)
+        filtered_paths, extra_variants = select_preferred_tip_variants(
+            all_paths,
+            return_extras=True,
+            keep_all_variants=True,
+        )
         if not filtered_paths:
             messagebox.showwarning("Warning", "No Tips files selected after applying naming rules.")
             return
@@ -320,7 +324,18 @@ class FirstBatchFrame(ttk.Frame):
                 return
             progress_percent = ((idx + 1) / total) * 100
             self.progress_var.set(progress_percent)
-        messagebox.showinfo("Info", "Exported Tips and Hooks Compilations.")
+        intro_failures = []
+        for intro_path in dict.fromkeys(self.intro_files):
+            try:
+                export_clip_to_2min(intro_path)
+            except Exception:
+                intro_failures.append(os.path.basename(intro_path))
+        if intro_failures:
+            messagebox.showwarning(
+                "Warning",
+                "Failed to export 2-minute intros for: {}".format(", ".join(intro_failures)),
+            )
+        messagebox.showinfo("Info", "Exported Tips, Hooks, and Intros (2 min).")
         self.btn_process_all.config(state="normal")
         self.progress_var.set(0)
 

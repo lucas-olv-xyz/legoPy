@@ -56,15 +56,28 @@ def _remove_suffix_casefold(name: str, suffix: str):
 
 
 
-def select_preferred_tip_variants(filepaths, return_extras=False):
+def select_preferred_tip_variants(filepaths, return_extras=False, keep_all_variants=False):
     """Return a list filtered to the first alphabetical variant for each T id.
 
     When return_extras is True, also return the skipped variant files in the order they
     appeared."""
-    selected = {}
-    extras = []
     if not filepaths:
         return ([], []) if return_extras else []
+
+    if keep_all_variants:
+        ordered_unique = []
+        seen = set()
+        for path in filepaths:
+            if path in seen:
+                continue
+            ordered_unique.append(path)
+            seen.add(path)
+        if return_extras:
+            return ordered_unique, []
+        return ordered_unique
+
+    selected = {}
+    extras = []
     for idx, path in enumerate(filepaths):
         base = os.path.splitext(os.path.basename(path))[0]
         match = TIP_VARIANT_PATTERN.search(base)
@@ -217,6 +230,19 @@ def concat_and_trim_videos(file_list, output_path, duration_sec=120):
             raise RuntimeError(f"Error during trimming:\n{result_trim.stderr}")
 
 
+def export_clip_to_2min(source_path, output_basename=None, duration_sec=120):
+    """Create a 2-minute version of a single clip, saving it to the Parts_2min folder."""
+    if not source_path:
+        raise ValueError("source_path must be provided")
+    absolute = os.path.abspath(source_path)
+    out_dir = ensure_folder_for_export(absolute, folder_name="2min")
+    base_name = output_basename or f"{os.path.splitext(os.path.basename(absolute))[0]}_2min"
+    safe_name = f"{safe_filename(base_name)}.mp4"
+    output_path = os.path.join(out_dir, safe_name)
+    concat_and_trim_videos([absolute], output_path, duration_sec=duration_sec)
+    return output_path
+
+
 def ensure_folder_for_export(first_file_path, folder_name=None):
     if folder_name == "2min":
         parts_dir, _ = resolve_export_roots(first_file_path)
@@ -254,4 +280,5 @@ __all__ = [
     "concat_and_trim_videos",
     "ensure_folder_for_export",
     "safe_filename",
+    "export_clip_to_2min",
 ]

@@ -4,6 +4,7 @@ import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import os
 import re
+from dataclasses import dataclass
 from legopy.services.media import (
     get_video_resolution,
     get_video_duration,
@@ -16,58 +17,180 @@ from legopy.services.media import (
     infer_project_prefix,
 )
 
-H_SEGMENT_PATTERN = re.compile(r"H(\d+[a-z]?|\([^)]*\))", re.IGNORECASE)
+H_SEGMENT_PATTERN = re.compile(r"H(\d+[a-z]?|\([^)]*\)|[A-Za-z0-9+]+)", re.IGNORECASE)
 VARIANT_SEGMENT_PATTERN = re.compile(r"V(\d+[A-Za-z]?)", re.IGNORECASE)
-INTRO_SUFFIX_PATTERN = re.compile(r"I\d+$", re.IGNORECASE)
+SEGMENT_PATTERN = re.compile(
+    r"([VHI](?:\([^)]*\)|[A-Za-z0-9]+(?:\+[A-Za-z0-9]+)*))",
+    re.IGNORECASE,
+)
+INTRO_SUFFIX_PATTERN = re.compile(r"I(?:\([^)]*\)|[A-Za-z0-9]+)$", re.IGNORECASE)
 
+
+
+def sanitize_project_slug(value):
+    if not value:
+        return "E000"
+    slug = value.strip().upper()
+    slug = re.sub(r"(?i)_TEST$", "", slug)
+    slug = slug.rstrip("_")
+    return slug or "E000"
+
+
+def normalize_variant_token(token, variant_idx):
+    if token:
+        cleaned = token.upper()
+        if not cleaned.startswith("V"):
+            cleaned = f"V{cleaned}"
+        return cleaned
+    return f"V{variant_idx}".upper()
+
+
+def normalize_hook_token(token, fallback_idx):
+    if token:
+        cleaned = token.upper()
+        if not cleaned.startswith("H"):
+            cleaned = f"H{cleaned}"
+        return cleaned, True
+    return f"H{fallback_idx}".upper(), False
+
+
+def normalize_intro_token(token, fallback="I0"):
+    candidate = (token or fallback or "I0").strip()
+    if not candidate:
+        candidate = fallback or "I0"
+    candidate = candidate.upper()
+    if not candidate.startswith("I"):
+        candidate = f"I{candidate}"
+    return candidate
+
+
+def _extract_segments(base_name):
+    segments = {"V": [], "H": [], "I": []}
+    for segment in SEGMENT_PATTERN.findall(base_name or ""):
+        key = segment[0].upper()
+        segments.setdefault(key, []).append(segment.upper())
+    return segments
+
+
+def infer_intro_token(intro_path, fallback_idx=None):
+    if not intro_path:
+        if fallback_idx is None:
+            return None
+        return normalize_intro_token(None, f"I{fallback_idx}")
+    base_name = os.path.splitext(os.path.basename(intro_path))[0]
+    segments = _extract_segments(base_name)
+    intro_segments = segments.get("I") or []
+    if intro_segments:
+        return normalize_intro_token(intro_segments[0])
+    if fallback_idx is None:
+        return None
+    return normalize_intro_token(None, f"I{fallback_idx}")
+
+
+@dataclass(frozen=True)
+class SequenceBaseName:
+    project_slug: str
+    variant_token: str
+    hook_token: str
+    base_intro_token: str
+    hook_combo_token: str | None = None
+
+    def as_string(self) -> str:
+        return f"{self.project_slug}_{self.variant_token}{self.hook_token}_T_EN"
+
+    def with_intro(self, intro_token: str | None) -> str:
+        token = normalize_intro_token(intro_token, self.base_intro_token or "I0")
+        hook = self.hook_token
+        if intro_token is not None and self.hook_combo_token:
+            hook = self.hook_combo_token
+        return f"{self.project_slug}_{self.variant_token}{hook}{token}_T_EN"
+
+    def __str__(self) -> str:
+        return self.as_string()
 
 
 def determine_sequence_base_name(project_code, primary_file, fallback_hook_idx, variant_idx=0):
     project_slug = infer_project_prefix(primary_file, project_code)
-    project_slug = (project_slug or 'E000').strip('_') or 'E000'
+    if project_code:
+        project_slug = project_code
+    project_slug = sanitize_project_slug(project_slug)
 
     base_name = ''
     if primary_file:
         base_name = os.path.splitext(os.path.basename(primary_file))[0].strip()
 
-    variant_segment = None
-    hook_segment = None
-    if base_name:
-        variant_match = VARIANT_SEGMENT_PATTERN.search(base_name)
-        if variant_match:
-            variant_segment = variant_match.group(1)
-        hook_match = H_SEGMENT_PATTERN.search(base_name)
-        if hook_match:
-            hook_segment = hook_match.group(1)
+    segments = _extract_segments(base_name)
+    variant_raw = None
+    hook_raw = None
+    intro_segments = []
+    if segments:
+        variant_entries = segments.get("V") or []
+        hook_entries = segments.get("H") or []
+        intro_segments = segments.get("I") or []
+        variant_raw = variant_entries[0] if variant_entries else None
+        hook_raw = hook_entries[0] if hook_entries else None
 
-    if variant_segment:
-        variant_code = f"V{variant_segment}".upper()
-    else:
-        variant_code = f"V{variant_idx}".upper()
+    variant_code = normalize_variant_token(variant_raw, variant_idx)
+    hook_code, hook_from_file = normalize_hook_token(hook_raw, fallback_hook_idx)
 
-    if hook_segment:
-        hook_code = f"H{hook_segment}".upper()
-    else:
-        hook_code = f"H{fallback_hook_idx}".upper()
+    base_intro_token = "I0"
+    hook_combo_token = None
+    if hook_from_file and intro_segments:
+        intro_token = normalize_intro_token(intro_segments[0])
+        base_intro_token = intro_token
+        if hook_code.startswith("H("):
+            hook_combo_token = hook_code
+        else:
+            hook_combo_token = f"H({hook_code}+{intro_token})"
+    elif hook_from_file and not intro_segments:
+        base_intro_token = "I0"
 
-    combined = f"{variant_code}{hook_code}"
-    return f"{project_slug}_{combined}_T_EN"
+    if not hook_from_file:
+        base_intro_token = "I0"
+
+    return SequenceBaseName(
+        project_slug=project_slug,
+        variant_token=variant_code,
+        hook_token=hook_code,
+        base_intro_token=base_intro_token,
+        hook_combo_token=hook_combo_token,
+    )
 
 
-def build_sequence_name(base_name, intro_idx=None, project_code=None):
-    fallback_project = (project_code or "E000").strip() or "E000"
+def build_sequence_name(base_name, intro_idx=None, project_code=None, intro_token=None):
+    if isinstance(base_name, SequenceBaseName):
+        token = intro_token
+        if token is None:
+            if intro_idx is None:
+                token = base_name.base_intro_token
+            else:
+                try:
+                    token = f"I{int(intro_idx)}"
+                except (TypeError, ValueError):
+                    token = base_name.base_intro_token or "I0"
+        token = normalize_intro_token(token, base_name.base_intro_token or "I0")
+        return base_name.with_intro(token)
+
+    fallback_project = sanitize_project_slug(project_code or "E000")
     name = (base_name or '').strip()
     if not name:
-        name = f"{fallback_project}_V0H0_T_EN"
-    try:
-        intro_value = 0 if intro_idx is None else int(intro_idx)
-    except (TypeError, ValueError):
-        intro_value = 0
+        token = intro_token or (f"I{intro_idx}" if intro_idx is not None else "I0")
+        token = normalize_intro_token(token)
+        return f"{fallback_project}_V0H0{token}_T_EN"
+
+    token = intro_token
+    if token is None:
+        try:
+            intro_value = 0 if intro_idx is None else int(intro_idx)
+            token = f"I{intro_value}"
+        except (TypeError, ValueError):
+            token = "I0"
+    token = normalize_intro_token(token)
     if name.endswith('_T_EN'):
         base = INTRO_SUFFIX_PATTERN.sub('', name[:-5])
-        return f"{base}I{intro_value}_T_EN"
+        return f"{base}{token}_T_EN"
     base = INTRO_SUFFIX_PATTERN.sub('', name)
-    return f"{base}_I{intro_value}"
+    return f"{base}_{token}"
 
 
 class FileItem(tk.Frame):
@@ -451,9 +574,9 @@ class SequenceCompilationsManager:
 
 
 
-    def _build_sequence_name(self, base_name, intro_idx=None):
+    def _build_sequence_name(self, base_name, intro_idx=None, intro_token=None):
         project_code = self.get_project_code()
-        return build_sequence_name(base_name, intro_idx, project_code)
+        return build_sequence_name(base_name, intro_idx, project_code, intro_token=intro_token)
 
 
 
@@ -461,7 +584,7 @@ class SequenceCompilationsManager:
 
     def add_empty_sequence(self):
         idx = len(self.sequence_frames)
-        base_name = self._determine_sequence_base_name(None, idx)
+        base_name = self._determine_sequence_base_name(None, idx, variant_idx=idx)
         name = self._build_sequence_name(base_name)
         seq = SequenceCompilationFrame(
             self.container_sequences.scrollable_frame,
@@ -482,7 +605,7 @@ class SequenceCompilationsManager:
         frame.destroy()
         self.sequence_frames.pop(idx)
         for i, seq in enumerate(self.sequence_frames):
-            fallback_name = self._determine_sequence_base_name(None, i)
+            fallback_name = self._determine_sequence_base_name(None, i, variant_idx=i)
             seq.set_name(self._build_sequence_name(fallback_name))
 
 
@@ -494,7 +617,7 @@ class SequenceCompilationsManager:
             on_delete_callback=self.remove_sequence,
             duplicate_callback=self.duplicate_sequence,
             allow_rename=True,
-            name=self._build_sequence_name(self._determine_sequence_base_name(None, idx + 1)),
+            name=self._build_sequence_name(self._determine_sequence_base_name(None, idx + 1, variant_idx=idx + 1)),
             files=frame.files.copy(),
             export_checkbox=True
         )
@@ -504,7 +627,7 @@ class SequenceCompilationsManager:
             cf.pack_forget()
             cf.pack(fill="x", pady=5)
         for i, seq in enumerate(self.sequence_frames):
-            fallback_name = self._determine_sequence_base_name(None, i)
+            fallback_name = self._determine_sequence_base_name(None, i, variant_idx=i)
             seq.set_name(self._build_sequence_name(fallback_name))
 
 
@@ -516,6 +639,10 @@ class SequenceCompilationsManager:
         tips_compilations = self.get_tips_compilations()
         hooks_compilations = self.get_hooks_compilations()
         intro_files = list(self.get_intro_files() or [])
+        intro_entries = []
+        for intro_idx, intro_path in enumerate(intro_files, start=1):
+            intro_token = infer_intro_token(intro_path, intro_idx)
+            intro_entries.append((intro_idx, intro_path, intro_token))
 
         base_tip_files = []
         if callable(getattr(self, "get_sequence_tip_files", None)):
@@ -543,20 +670,26 @@ class SequenceCompilationsManager:
             seq_frame.pack(fill="x", pady=5)
             self.sequence_frames.append(seq_frame)
 
-        def add_sequence_variants(base_name: str, tip_files, hook_file=None):
+        def add_sequence_variants(base_name, tip_files, hook_file=None):
             tip_list = list(tip_files)
             if hook_file:
                 base_sequence = [hook_file] + tip_list
-                append_sequence(self._build_sequence_name(base_name, 0), base_sequence)
-                for intro_idx, intro_path in enumerate(intro_files, start=1):
+                append_sequence(self._build_sequence_name(base_name, None), base_sequence)
+                for intro_idx, intro_path, intro_token in intro_entries:
                     sequence_files = [hook_file, intro_path] + tip_list
-                    append_sequence(self._build_sequence_name(base_name, intro_idx), sequence_files)
+                    append_sequence(
+                        self._build_sequence_name(base_name, intro_idx, intro_token=intro_token),
+                        sequence_files,
+                    )
             else:
                 base_sequence = list(tip_list)
-                append_sequence(self._build_sequence_name(base_name, 0), base_sequence)
-                for intro_idx, intro_path in enumerate(intro_files, start=1):
+                append_sequence(self._build_sequence_name(base_name, None), base_sequence)
+                for intro_idx, intro_path, intro_token in intro_entries:
                     sequence_files = [intro_path] + tip_list
-                    append_sequence(self._build_sequence_name(base_name, intro_idx), sequence_files)
+                    append_sequence(
+                        self._build_sequence_name(base_name, intro_idx, intro_token=intro_token),
+                        sequence_files,
+                    )
 
         primary_tip = base_tip_files[0] if base_tip_files else None
         base_name = self._determine_sequence_base_name(primary_tip, fallback_hook_idx=0)
