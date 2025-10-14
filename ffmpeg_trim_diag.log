@@ -1,0 +1,780 @@
+
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffmpeg.exe -y -i C:\Users\theel\AppData\Local\Temp\tmpqp3u98kj\merged.mp4 -t 120 -c copy C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_T1_(01'44).mp4
+RET: 0
+OUT: 
+ERR: ffmpeg version 2025-09-25-git-9970dc32bf-essentials_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-openal --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      60. 13.100 / 60. 13.100
+  libavcodec     62. 16.100 / 62. 16.100
+  libavformat    62.  6.100 / 62.  6.100
+  libavdevice    62.  2.100 / 62.  2.100
+  libavfilter    11.  9.100 / 11.  9.100
+  libswscale      9.  3.100 /  9.  3.100
+  libswresample   6.  2.100 /  6.  2.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\theel\AppData\Local\Temp\tmpqp3u98kj\merged.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Duration: 00:15:51.93, start: 0.000000, bitrate: 6713 kb/s
+  Stream #0:0[0x1](eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], 6389 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1[0x2](eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #0:1 -> #0:1 (copy)
+Output #0, mp4, to 'C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_T1_(01'44).mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Stream #0:0(eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 6389 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1(eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Press [q] to stop, [?] for help
+[out#0/mp4 @ 000001e10957abc0] video:93605KiB audio:4650KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.102125%
+frame= 6000 fps=0.0 q=-1.0 Lsize=   98355KiB time=00:02:00.02 bitrate=6713.2kbits/s speed= 970x elapsed=0:00:00.12    
+
+
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffmpeg.exe -y -i C:\Users\theel\AppData\Local\Temp\tmplc_uv8n2\merged.mp4 -t 120 -c copy C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_T2_(02'06).mp4
+RET: 0
+OUT: 
+ERR: ffmpeg version 2025-09-25-git-9970dc32bf-essentials_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-openal --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      60. 13.100 / 60. 13.100
+  libavcodec     62. 16.100 / 62. 16.100
+  libavformat    62.  6.100 / 62.  6.100
+  libavdevice    62.  2.100 / 62.  2.100
+  libavfilter    11.  9.100 / 11.  9.100
+  libswscale      9.  3.100 /  9.  3.100
+  libswresample   6.  2.100 /  6.  2.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\theel\AppData\Local\Temp\tmplc_uv8n2\merged.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Duration: 00:15:51.92, start: 0.000000, bitrate: 6713 kb/s
+  Stream #0:0[0x1](eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], 6389 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1[0x2](eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #0:1 -> #0:1 (copy)
+Output #0, mp4, to 'C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_T2_(02'06).mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Stream #0:0(eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 6389 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1(eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Press [q] to stop, [?] for help
+[out#0/mp4 @ 0000015e306aabc0] video:93769KiB audio:4650KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.101955%
+frame= 6000 fps=0.0 q=-1.0 Lsize=   98519KiB time=00:02:00.04 bitrate=6723.3kbits/s speed=1.21e+03x elapsed=0:00:00.09    
+
+
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffmpeg.exe -y -i C:\Users\theel\AppData\Local\Temp\tmpfbxl053f\merged.mp4 -t 120 -c copy C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_T3_(00'53).mp4
+RET: 0
+OUT: 
+ERR: ffmpeg version 2025-09-25-git-9970dc32bf-essentials_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-openal --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      60. 13.100 / 60. 13.100
+  libavcodec     62. 16.100 / 62. 16.100
+  libavformat    62.  6.100 / 62.  6.100
+  libavdevice    62.  2.100 / 62.  2.100
+  libavfilter    11.  9.100 / 11.  9.100
+  libswscale      9.  3.100 /  9.  3.100
+  libswresample   6.  2.100 /  6.  2.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\theel\AppData\Local\Temp\tmpfbxl053f\merged.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Duration: 00:15:51.93, start: 0.000000, bitrate: 6713 kb/s
+  Stream #0:0[0x1](eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], 6389 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1[0x2](eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #0:1 -> #0:1 (copy)
+Output #0, mp4, to 'C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_T3_(00'53).mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Stream #0:0(eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 6389 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1(eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Press [q] to stop, [?] for help
+[out#0/mp4 @ 0000023cdacaabc0] video:93666KiB audio:4650KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.102062%
+frame= 6000 fps=0.0 q=-1.0 Lsize=   98416KiB time=00:02:00.07 bitrate=6714.1kbits/s speed=1.21e+03x elapsed=0:00:00.09    
+
+
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffmpeg.exe -y -i C:\Users\theel\AppData\Local\Temp\tmpqe_gzwr1\merged.mp4 -t 120 -c copy C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_T4_(01'18).mp4
+RET: 0
+OUT: 
+ERR: ffmpeg version 2025-09-25-git-9970dc32bf-essentials_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-openal --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      60. 13.100 / 60. 13.100
+  libavcodec     62. 16.100 / 62. 16.100
+  libavformat    62.  6.100 / 62.  6.100
+  libavdevice    62.  2.100 / 62.  2.100
+  libavfilter    11.  9.100 / 11.  9.100
+  libswscale      9.  3.100 /  9.  3.100
+  libswresample   6.  2.100 /  6.  2.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\theel\AppData\Local\Temp\tmpqe_gzwr1\merged.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Duration: 00:15:51.94, start: 0.000000, bitrate: 6713 kb/s
+  Stream #0:0[0x1](eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], 6389 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1[0x2](eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #0:1 -> #0:1 (copy)
+Output #0, mp4, to 'C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_T4_(01'18).mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Stream #0:0(eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 6389 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1(eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Press [q] to stop, [?] for help
+[out#0/mp4 @ 0000028de368abc0] video:92220KiB audio:4650KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.103586%
+frame= 6000 fps=0.0 q=-1.0 Lsize=   96970KiB time=00:02:00.02 bitrate=6618.7kbits/s speed=1.2e+03x elapsed=0:00:00.09    
+
+
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffmpeg.exe -y -i C:\Users\theel\AppData\Local\Temp\tmp9taey4ur\merged.mp4 -t 120 -c copy C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_T5_(01'29).mp4
+RET: 0
+OUT: 
+ERR: ffmpeg version 2025-09-25-git-9970dc32bf-essentials_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-openal --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      60. 13.100 / 60. 13.100
+  libavcodec     62. 16.100 / 62. 16.100
+  libavformat    62.  6.100 / 62.  6.100
+  libavdevice    62.  2.100 / 62.  2.100
+  libavfilter    11.  9.100 / 11.  9.100
+  libswscale      9.  3.100 /  9.  3.100
+  libswresample   6.  2.100 /  6.  2.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\theel\AppData\Local\Temp\tmp9taey4ur\merged.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Duration: 00:15:51.92, start: 0.000000, bitrate: 6713 kb/s
+  Stream #0:0[0x1](eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], 6389 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1[0x2](eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #0:1 -> #0:1 (copy)
+Output #0, mp4, to 'C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_T5_(01'29).mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Stream #0:0(eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 6389 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1(eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Press [q] to stop, [?] for help
+[out#0/mp4 @ 00000178adacabc0] video:93569KiB audio:4650KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.102162%
+frame= 6000 fps=0.0 q=-1.0 Lsize=   98319KiB time=00:02:00.02 bitrate=6710.8kbits/s speed=1.16e+03x elapsed=0:00:00.10    
+
+
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffmpeg.exe -y -i C:\Users\theel\AppData\Local\Temp\tmp3gc8odog\merged.mp4 -t 120 -c copy C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_T6_(01'42).mp4
+RET: 0
+OUT: 
+ERR: ffmpeg version 2025-09-25-git-9970dc32bf-essentials_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-openal --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      60. 13.100 / 60. 13.100
+  libavcodec     62. 16.100 / 62. 16.100
+  libavformat    62.  6.100 / 62.  6.100
+  libavdevice    62.  2.100 / 62.  2.100
+  libavfilter    11.  9.100 / 11.  9.100
+  libswscale      9.  3.100 /  9.  3.100
+  libswresample   6.  2.100 /  6.  2.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\theel\AppData\Local\Temp\tmp3gc8odog\merged.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Duration: 00:15:51.92, start: 0.000000, bitrate: 6713 kb/s
+  Stream #0:0[0x1](eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], 6389 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1[0x2](eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #0:1 -> #0:1 (copy)
+Output #0, mp4, to 'C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_T6_(01'42).mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Stream #0:0(eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 6389 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1(eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Press [q] to stop, [?] for help
+[out#0/mp4 @ 000001a49d66abc0] video:93446KiB audio:4650KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.102291%
+frame= 6000 fps=0.0 q=-1.0 Lsize=   98196KiB time=00:02:00.02 bitrate=6702.4kbits/s speed=1.21e+03x elapsed=0:00:00.09    
+
+
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffmpeg.exe -y -i C:\Users\theel\AppData\Local\Temp\tmp77nmudl9\merged.mp4 -t 120 -c copy C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_T7_(01'22).mp4
+RET: 0
+OUT: 
+ERR: ffmpeg version 2025-09-25-git-9970dc32bf-essentials_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-openal --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      60. 13.100 / 60. 13.100
+  libavcodec     62. 16.100 / 62. 16.100
+  libavformat    62.  6.100 / 62.  6.100
+  libavdevice    62.  2.100 / 62.  2.100
+  libavfilter    11.  9.100 / 11.  9.100
+  libswscale      9.  3.100 /  9.  3.100
+  libswresample   6.  2.100 /  6.  2.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\theel\AppData\Local\Temp\tmp77nmudl9\merged.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Duration: 00:15:51.93, start: 0.000000, bitrate: 6713 kb/s
+  Stream #0:0[0x1](eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], 6389 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1[0x2](eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #0:1 -> #0:1 (copy)
+Output #0, mp4, to 'C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_T7_(01'22).mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Stream #0:0(eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 6389 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1(eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Press [q] to stop, [?] for help
+[out#0/mp4 @ 000001b792d4abc0] video:93692KiB audio:4650KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.102035%
+frame= 6000 fps=0.0 q=-1.0 Lsize=   98442KiB time=00:02:00.05 bitrate=6717.1kbits/s speed=1.2e+03x elapsed=0:00:00.10    
+
+
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffmpeg.exe -y -i C:\Users\theel\AppData\Local\Temp\tmptnxnem35\merged.mp4 -t 120 -c copy C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_T8a_(01'56).mp4
+RET: 0
+OUT: 
+ERR: ffmpeg version 2025-09-25-git-9970dc32bf-essentials_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-openal --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      60. 13.100 / 60. 13.100
+  libavcodec     62. 16.100 / 62. 16.100
+  libavformat    62.  6.100 / 62.  6.100
+  libavdevice    62.  2.100 / 62.  2.100
+  libavfilter    11.  9.100 / 11.  9.100
+  libswscale      9.  3.100 /  9.  3.100
+  libswresample   6.  2.100 /  6.  2.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\theel\AppData\Local\Temp\tmptnxnem35\merged.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Duration: 00:15:51.94, start: 0.000000, bitrate: 6713 kb/s
+  Stream #0:0[0x1](eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], 6389 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1[0x2](eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #0:1 -> #0:1 (copy)
+Output #0, mp4, to 'C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_T8a_(01'56).mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Stream #0:0(eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 6389 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1(eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Press [q] to stop, [?] for help
+[out#0/mp4 @ 0000017e2703abc0] video:93605KiB audio:4650KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.102125%
+frame= 6000 fps=0.0 q=-1.0 Lsize=   98355KiB time=00:02:00.02 bitrate=6713.3kbits/s speed=1.22e+03x elapsed=0:00:00.09    
+
+
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffmpeg.exe -y -i C:\Users\theel\AppData\Local\Temp\tmpg0gqdb4a\merged.mp4 -t 120 -c copy C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_T8b_(01'56).mp4
+RET: 0
+OUT: 
+ERR: ffmpeg version 2025-09-25-git-9970dc32bf-essentials_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-openal --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      60. 13.100 / 60. 13.100
+  libavcodec     62. 16.100 / 62. 16.100
+  libavformat    62.  6.100 / 62.  6.100
+  libavdevice    62.  2.100 / 62.  2.100
+  libavfilter    11.  9.100 / 11.  9.100
+  libswscale      9.  3.100 /  9.  3.100
+  libswresample   6.  2.100 /  6.  2.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\theel\AppData\Local\Temp\tmpg0gqdb4a\merged.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Duration: 00:15:51.93, start: 0.000000, bitrate: 6713 kb/s
+  Stream #0:0[0x1](eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], 6389 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1[0x2](eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #0:1 -> #0:1 (copy)
+Output #0, mp4, to 'C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_T8b_(01'56).mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Stream #0:0(eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 6389 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1(eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Press [q] to stop, [?] for help
+[out#0/mp4 @ 000001f08786abc0] video:93605KiB audio:4650KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.102125%
+frame= 6000 fps=0.0 q=-1.0 Lsize=   98355KiB time=00:02:00.02 bitrate=6713.3kbits/s speed=1.17e+03x elapsed=0:00:00.10    
+
+
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffmpeg.exe -y -i C:\Users\theel\AppData\Local\Temp\tmpqwsbumql\merged.mp4 -t 120 -c copy C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_H(T8)_(01'56).mp4
+RET: 0
+OUT: 
+ERR: ffmpeg version 2025-09-25-git-9970dc32bf-essentials_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-openal --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      60. 13.100 / 60. 13.100
+  libavcodec     62. 16.100 / 62. 16.100
+  libavformat    62.  6.100 / 62.  6.100
+  libavdevice    62.  2.100 / 62.  2.100
+  libavfilter    11.  9.100 / 11.  9.100
+  libswscale      9.  3.100 /  9.  3.100
+  libswresample   6.  2.100 /  6.  2.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\theel\AppData\Local\Temp\tmpqwsbumql\merged.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Duration: 00:17:48.53, start: 0.000000, bitrate: 6712 kb/s
+  Stream #0:0[0x1](eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], 6388 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1[0x2](eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #0:1 -> #0:1 (copy)
+Output #0, mp4, to 'C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_H(T8)_(01'56).mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Stream #0:0(eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 6388 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1(eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Press [q] to stop, [?] for help
+[out#0/mp4 @ 00000178513a0580] video:93614KiB audio:4650KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.102116%
+frame= 6000 fps=0.0 q=-1.0 Lsize=   98364KiB time=00:02:00.02 bitrate=6713.9kbits/s speed=1.1e+03x elapsed=0:00:00.10    
+
+
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffmpeg.exe -y -i C:\Users\theel\AppData\Local\Temp\tmpf3kjk7vo\merged.mp4 -t 120 -c copy C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_H1_(00'46).mp4
+RET: 0
+OUT: 
+ERR: ffmpeg version 2025-09-25-git-9970dc32bf-essentials_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-openal --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      60. 13.100 / 60. 13.100
+  libavcodec     62. 16.100 / 62. 16.100
+  libavformat    62.  6.100 / 62.  6.100
+  libavdevice    62.  2.100 / 62.  2.100
+  libavfilter    11.  9.100 / 11.  9.100
+  libswscale      9.  3.100 /  9.  3.100
+  libswresample   6.  2.100 /  6.  2.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\theel\AppData\Local\Temp\tmpf3kjk7vo\merged.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Duration: 00:16:38.05, start: 0.000000, bitrate: 6707 kb/s
+  Stream #0:0[0x1](eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], 6383 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1[0x2](eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #0:1 -> #0:1 (copy)
+Output #0, mp4, to 'C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_H1_(00'46).mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Stream #0:0(eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 6383 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1(eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Press [q] to stop, [?] for help
+[out#0/mp4 @ 000001eef9170480] video:92566KiB audio:4650KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.103217%
+frame= 6000 fps=0.0 q=-1.0 Lsize=   97316KiB time=00:02:00.02 bitrate=6642.3kbits/s speed=1.23e+03x elapsed=0:00:00.09    
+
+
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffmpeg.exe -y -i C:\Users\theel\AppData\Local\Temp\tmpp34m34xt\merged.mp4 -t 120 -c copy C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_H2_(01'21).mp4
+RET: 0
+OUT: 
+ERR: ffmpeg version 2025-09-25-git-9970dc32bf-essentials_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-openal --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      60. 13.100 / 60. 13.100
+  libavcodec     62. 16.100 / 62. 16.100
+  libavformat    62.  6.100 / 62.  6.100
+  libavdevice    62.  2.100 / 62.  2.100
+  libavfilter    11.  9.100 / 11.  9.100
+  libswscale      9.  3.100 /  9.  3.100
+  libswresample   6.  2.100 /  6.  2.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\theel\AppData\Local\Temp\tmpp34m34xt\merged.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Duration: 00:17:13.31, start: 0.000000, bitrate: 6711 kb/s
+  Stream #0:0[0x1](eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], 6387 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1[0x2](eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #0:1 -> #0:1 (copy)
+Output #0, mp4, to 'C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_H2_(01'21).mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Stream #0:0(eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 6387 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1(eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Press [q] to stop, [?] for help
+[out#0/mp4 @ 00000185d53954c0] video:93601KiB audio:4650KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.102130%
+frame= 6000 fps=0.0 q=-1.0 Lsize=   98351KiB time=00:02:00.02 bitrate=6713.0kbits/s speed=1.19e+03x elapsed=0:00:00.10    
+
+
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffmpeg.exe -y -i C:\Users\theel\AppData\Local\Temp\tmp5msm_n78\merged.mp4 -t 120 -c copy C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_H3a_(01'12).mp4
+RET: 0
+OUT: 
+ERR: ffmpeg version 2025-09-25-git-9970dc32bf-essentials_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-openal --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      60. 13.100 / 60. 13.100
+  libavcodec     62. 16.100 / 62. 16.100
+  libavformat    62.  6.100 / 62.  6.100
+  libavdevice    62.  2.100 / 62.  2.100
+  libavfilter    11.  9.100 / 11.  9.100
+  libswscale      9.  3.100 /  9.  3.100
+  libswresample   6.  2.100 /  6.  2.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\theel\AppData\Local\Temp\tmp5msm_n78\merged.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Duration: 00:17:04.47, start: 0.000000, bitrate: 6712 kb/s
+  Stream #0:0[0x1](eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], 6388 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1[0x2](eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #0:1 -> #0:1 (copy)
+Output #0, mp4, to 'C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_H3a_(01'12).mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Stream #0:0(eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 6388 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1(eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Press [q] to stop, [?] for help
+[out#0/mp4 @ 000001f0f5f90580] video:93939KiB audio:4650KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.101780%
+frame= 6000 fps=0.0 q=-1.0 Lsize=   98689KiB time=00:02:00.04 bitrate=6734.4kbits/s speed=1.17e+03x elapsed=0:00:00.10    
+
+
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffmpeg.exe -y -i C:\Users\theel\AppData\Local\Temp\tmpys7uz40h\merged.mp4 -t 120 -c copy C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_H3b_(01'12).mp4
+RET: 0
+OUT: 
+ERR: ffmpeg version 2025-09-25-git-9970dc32bf-essentials_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-openal --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      60. 13.100 / 60. 13.100
+  libavcodec     62. 16.100 / 62. 16.100
+  libavformat    62.  6.100 / 62.  6.100
+  libavdevice    62.  2.100 / 62.  2.100
+  libavfilter    11.  9.100 / 11.  9.100
+  libswscale      9.  3.100 /  9.  3.100
+  libswresample   6.  2.100 /  6.  2.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\theel\AppData\Local\Temp\tmpys7uz40h\merged.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Duration: 00:17:04.47, start: 0.000000, bitrate: 6712 kb/s
+  Stream #0:0[0x1](eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], 6388 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1[0x2](eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #0:1 -> #0:1 (copy)
+Output #0, mp4, to 'C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_H3b_(01'12).mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Stream #0:0(eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 6388 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1(eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Press [q] to stop, [?] for help
+[out#0/mp4 @ 00000211506b0580] video:93939KiB audio:4650KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.101780%
+frame= 6000 fps=0.0 q=-1.0 Lsize=   98689KiB time=00:02:00.04 bitrate=6734.9kbits/s speed=1.17e+03x elapsed=0:00:00.10    
+
+
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffmpeg.exe -y -i C:\Users\theel\AppData\Local\Temp\tmp51jwpqyo\merged.mp4 -t 120 -c copy C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_I1_2min.mp4
+RET: 0
+OUT: 
+ERR: ffmpeg version 2025-09-25-git-9970dc32bf-essentials_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-openal --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      60. 13.100 / 60. 13.100
+  libavcodec     62. 16.100 / 62. 16.100
+  libavformat    62.  6.100 / 62.  6.100
+  libavdevice    62.  2.100 / 62.  2.100
+  libavfilter    11.  9.100 / 11.  9.100
+  libswscale      9.  3.100 /  9.  3.100
+  libswresample   6.  2.100 /  6.  2.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\theel\AppData\Local\Temp\tmp51jwpqyo\merged.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Duration: 00:01:21.39, start: 0.000000, bitrate: 6696 kb/s
+  Stream #0:0[0x1](eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], 6373 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1[0x2](eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #0:1 -> #0:1 (copy)
+Output #0, mp4, to 'C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_TESTS_Tips-Normal_Parts_2min\G550_I1_2min.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.100
+  Stream #0:0(eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 6373 kb/s, 50 fps, 50 tbr, 50k tbn (default)
+    Metadata:
+      handler_name    : ?Mainconcept Video Media Handler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1(eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 317 kb/s (default)
+    Metadata:
+      handler_name    : #Mainconcept MP4 Sound Media Handler
+      vendor_id       : [0][0][0][0]
+Press [q] to stop, [?] for help
+[out#0/mp4 @ 0000022fdca76cc0] video:63311KiB audio:3153KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.103056%
+frame= 4069 fps=0.0 q=-1.0 Lsize=   66533KiB time=00:01:21.38 bitrate=6697.4kbits/s speed=1.2e+03x elapsed=0:00:00.06    
+

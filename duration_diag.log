@@ -1,0 +1,1015 @@
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+RET: 0
+OUT: 104.380000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+RET: 0
+OUT: 126.220000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+RET: 0
+OUT: 53.360000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+RET: 0
+OUT: 78.120000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+RET: 0
+OUT: 89.920000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+RET: 0
+OUT: 102.500000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+RET: 0
+OUT: 82.840000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+RET: 0
+OUT: 126.220000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+RET: 0
+OUT: 53.360000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+RET: 0
+OUT: 78.120000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+RET: 0
+OUT: 89.920000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+RET: 0
+OUT: 102.500000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+RET: 0
+OUT: 82.840000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+RET: 0
+OUT: 104.380000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+RET: 0
+OUT: 53.360000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+RET: 0
+OUT: 78.120000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+RET: 0
+OUT: 89.920000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+RET: 0
+OUT: 102.500000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+RET: 0
+OUT: 82.840000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+RET: 0
+OUT: 104.380000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+RET: 0
+OUT: 126.220000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+RET: 0
+OUT: 78.120000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+RET: 0
+OUT: 89.920000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+RET: 0
+OUT: 102.500000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+RET: 0
+OUT: 82.840000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+RET: 0
+OUT: 104.380000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+RET: 0
+OUT: 126.220000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+RET: 0
+OUT: 53.360000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+RET: 0
+OUT: 89.920000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+RET: 0
+OUT: 102.500000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+RET: 0
+OUT: 82.840000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+RET: 0
+OUT: 104.380000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+RET: 0
+OUT: 126.220000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+RET: 0
+OUT: 53.360000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+RET: 0
+OUT: 78.120000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+RET: 0
+OUT: 102.500000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+RET: 0
+OUT: 82.840000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+RET: 0
+OUT: 104.380000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+RET: 0
+OUT: 126.220000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+RET: 0
+OUT: 53.360000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+RET: 0
+OUT: 78.120000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+RET: 0
+OUT: 89.920000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+RET: 0
+OUT: 82.840000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+RET: 0
+OUT: 104.380000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+RET: 0
+OUT: 126.220000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+RET: 0
+OUT: 53.360000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+RET: 0
+OUT: 78.120000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+RET: 0
+OUT: 89.920000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+RET: 0
+OUT: 102.500000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+RET: 0
+OUT: 104.380000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+RET: 0
+OUT: 126.220000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+RET: 0
+OUT: 53.360000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+RET: 0
+OUT: 78.120000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+RET: 0
+OUT: 89.920000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+RET: 0
+OUT: 102.500000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+RET: 0
+OUT: 82.840000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+RET: 0
+OUT: 104.380000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+RET: 0
+OUT: 126.220000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+RET: 0
+OUT: 53.360000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+RET: 0
+OUT: 78.120000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+RET: 0
+OUT: 89.920000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+RET: 0
+OUT: 102.500000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+RET: 0
+OUT: 82.840000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H(T8).mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H(T8).mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+RET: 0
+OUT: 104.380000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+RET: 0
+OUT: 126.220000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+RET: 0
+OUT: 53.360000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+RET: 0
+OUT: 78.120000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+RET: 0
+OUT: 89.920000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+RET: 0
+OUT: 102.500000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+RET: 0
+OUT: 82.840000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H1.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H1.mp4
+RET: 0
+OUT: 46.120000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+RET: 0
+OUT: 104.380000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+RET: 0
+OUT: 126.220000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+RET: 0
+OUT: 53.360000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+RET: 0
+OUT: 78.120000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+RET: 0
+OUT: 89.920000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+RET: 0
+OUT: 102.500000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+RET: 0
+OUT: 82.840000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H2.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H2.mp4
+RET: 0
+OUT: 81.380000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+RET: 0
+OUT: 104.380000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+RET: 0
+OUT: 126.220000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+RET: 0
+OUT: 53.360000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+RET: 0
+OUT: 78.120000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+RET: 0
+OUT: 89.920000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+RET: 0
+OUT: 102.500000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+RET: 0
+OUT: 82.840000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H3a.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H3a.mp4
+RET: 0
+OUT: 72.540000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+RET: 0
+OUT: 104.380000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+RET: 0
+OUT: 126.220000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+RET: 0
+OUT: 53.360000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+RET: 0
+OUT: 78.120000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+RET: 0
+OUT: 89.920000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+RET: 0
+OUT: 102.500000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+RET: 0
+OUT: 82.840000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H3b.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H3b.mp4
+RET: 0
+OUT: 72.540000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+RET: 0
+OUT: 104.380000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+RET: 0
+OUT: 126.220000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+RET: 0
+OUT: 53.360000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+RET: 0
+OUT: 78.120000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+RET: 0
+OUT: 89.920000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+RET: 0
+OUT: 102.500000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+RET: 0
+OUT: 82.840000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T1.mp4
+RET: 0
+OUT: 104.380000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T2.mp4
+RET: 0
+OUT: 126.220000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T3.mp4
+RET: 0
+OUT: 53.360000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T4.mp4
+RET: 0
+OUT: 78.120000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T5.mp4
+RET: 0
+OUT: 89.920000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T6.mp4
+RET: 0
+OUT: 102.500000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T7.mp4
+RET: 0
+OUT: 82.840000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8a.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_T8b.mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H(T8).mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H(T8).mp4
+RET: 0
+OUT: 116.600000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H1.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H1.mp4
+RET: 0
+OUT: 46.120000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H2.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H2.mp4
+RET: 0
+OUT: 81.380000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H3a.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H3a.mp4
+RET: 0
+OUT: 72.540000
+
+ERR: 
+
+--- Checking: C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H3b.mp4
+CMD: C:\Users\theel\Desktop\legoPy\ffmpeg-bin\ffprobe.exe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 C:\Users\theel\Desktop\G550_TESTS_Tips-Normal\G550_H3b.mp4
+RET: 0
+OUT: 72.540000
+
+ERR: 
