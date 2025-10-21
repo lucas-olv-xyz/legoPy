@@ -8,6 +8,7 @@ Aplicacao desktop para organizar e exportar sequencias de videos 'Tips' e 'Hooks
 - Garante que cada compilacao de Tips tenha duracao minima de dois minutos e respeite a combinacao correta de Hooks.
 - Integra FFmpeg/FFprobe portaveis (pasta ffmpeg-bin/) e aceita substituicao por binarios do sistema via variaveis de ambiente FFMPEG_PATH e FFPROBE_PATH.
 - Mantem logs de depuracao (duration_diag.log, ffmpeg_concat_diag.log, ffmpeg_trim_diag.log, etc.) ao lado dos arquivos de origem para facilitar suporte.
+- Regras oficiais de nomenclatura (Gotcha! GP.5.1) estao documentadas em [NAMING_RULES.md](./NAMING_RULES.md) e sao aplicadas na geracao automatica de nomes.
 
 ## Requisitos
 

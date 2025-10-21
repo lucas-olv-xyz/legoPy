@@ -24,7 +24,39 @@ SEGMENT_PATTERN = re.compile(
     re.IGNORECASE,
 )
 INTRO_SUFFIX_PATTERN = re.compile(r"I(?:\([^)]*\)|[A-Za-z0-9]+)$", re.IGNORECASE)
+HOOK_INTRO_PATTERN = re.compile(r"I\d+[A-Za-z0-9.]*")
 
+
+def _ensure_prefix(token: str, prefix: str, default_suffix: str = "0") -> str:
+    token = (token or "").strip()
+    if not token:
+        return f"{prefix}{default_suffix}"
+    head = token[0]
+    rest = token[1:] if len(token) > 1 else ""
+    if head.upper() == prefix:
+        return f"{prefix}{rest}"
+    return f"{prefix}{token}"
+
+
+def _extract_implicit_intro_tokens(hook_body: str) -> list[str]:
+    return HOOK_INTRO_PATTERN.findall(hook_body or "")
+
+
+def _compose_hook_combo(hook_token: str, intro_token: str | None) -> str:
+    cleaned = (hook_token or "").strip()
+    if not cleaned:
+        return "H0"
+    if cleaned.startswith("H(") and cleaned.endswith(")"):
+        inner = cleaned[2:-1]
+    elif cleaned.startswith("H("):
+        inner = cleaned[2:]
+    else:
+        inner = cleaned
+    if intro_token:
+        intro_token = intro_token.strip()
+        if intro_token and intro_token not in inner.split("+"):
+            inner = f"{inner}+{intro_token}"
+    return f"H({inner})"
 
 
 def sanitize_project_slug(value):
@@ -38,37 +70,39 @@ def sanitize_project_slug(value):
 
 def normalize_variant_token(token, variant_idx):
     if token:
-        cleaned = token.upper()
-        if not cleaned.startswith("V"):
-            cleaned = f"V{cleaned}"
-        return cleaned
-    return f"V{variant_idx}".upper()
+        return _ensure_prefix(token, "V", str(variant_idx))
+    return f"V{variant_idx}"
 
 
 def normalize_hook_token(token, fallback_idx):
     if token:
-        cleaned = token.upper()
-        if not cleaned.startswith("H"):
-            cleaned = f"H{cleaned}"
-        return cleaned, True
-    return f"H{fallback_idx}".upper(), False
+        prefixed = _ensure_prefix(token, "H", str(fallback_idx))
+        body = prefixed[1:]
+        implicit_intros = tuple(_extract_implicit_intro_tokens(body))
+        combo_token = None
+        if body.startswith("("):
+            combo_token = f"H{body}"
+        elif "+" in body or implicit_intros:
+            combo_token = f"H({body})"
+        return prefixed, True, combo_token, implicit_intros
+    return f"H{fallback_idx}", False, None, tuple()
 
 
-def normalize_intro_token(token, fallback="I0"):
-    candidate = (token or fallback or "I0").strip()
+def normalize_intro_token(token, fallback=None):
+    candidate = (token or "").strip()
+    if not candidate and fallback:
+        candidate = (fallback or "").strip()
     if not candidate:
-        candidate = fallback or "I0"
-    candidate = candidate.upper()
-    if not candidate.startswith("I"):
-        candidate = f"I{candidate}"
-    return candidate
+        return None
+    return _ensure_prefix(candidate, "I", "0")
 
 
 def _extract_segments(base_name):
     segments = {"V": [], "H": [], "I": []}
     for segment in SEGMENT_PATTERN.findall(base_name or ""):
         key = segment[0].upper()
-        segments.setdefault(key, []).append(segment.upper())
+        normalized = f"{key}{segment[1:]}"
+        segments.setdefault(key, []).append(normalized)
     return segments
 
 
@@ -92,18 +126,22 @@ class SequenceBaseName:
     project_slug: str
     variant_token: str
     hook_token: str
-    base_intro_token: str
+    base_intro_token: str | None
     hook_combo_token: str | None = None
 
     def as_string(self) -> str:
-        return f"{self.project_slug}_{self.variant_token}{self.hook_token}_T_EN"
+        return self.with_intro(None)
 
     def with_intro(self, intro_token: str | None) -> str:
-        token = normalize_intro_token(intro_token, self.base_intro_token or "I0")
+        default_intro = self.base_intro_token
+        token = normalize_intro_token(intro_token, default_intro)
         hook = self.hook_token
-        if intro_token is not None and self.hook_combo_token:
+        if self.hook_combo_token and (token or intro_token is not None):
             hook = self.hook_combo_token
-        return f"{self.project_slug}_{self.variant_token}{hook}{token}_T_EN"
+        body = f"{self.project_slug}_{self.variant_token}{hook}"
+        if token:
+            body += token
+        return f"{body}_T_EN"
 
     def __str__(self) -> str:
         return self.as_string()
@@ -131,27 +169,36 @@ def determine_sequence_base_name(project_code, primary_file, fallback_hook_idx, 
         hook_raw = hook_entries[0] if hook_entries else None
 
     variant_code = normalize_variant_token(variant_raw, variant_idx)
-    hook_code, hook_from_file = normalize_hook_token(hook_raw, fallback_hook_idx)
+    hook_code_raw, hook_from_file, hook_combo_candidate, implicit_intro_tokens = normalize_hook_token(
+        hook_raw, fallback_hook_idx
+    )
 
-    base_intro_token = "I0"
-    hook_combo_token = None
+    hook_combo_token = hook_combo_candidate
+    hook_token = hook_combo_candidate or hook_code_raw
+    base_intro_token = None
+
     if hook_from_file and intro_segments:
         intro_token = normalize_intro_token(intro_segments[0])
         base_intro_token = intro_token
-        if hook_code.startswith("H("):
-            hook_combo_token = hook_code
-        else:
-            hook_combo_token = f"H({hook_code}+{intro_token})"
-    elif hook_from_file and not intro_segments:
+        if hook_combo_token is None:
+            hook_combo_token = _compose_hook_combo(hook_code_raw, intro_token)
+        hook_token = hook_combo_token or hook_token
+    elif hook_from_file and implicit_intro_tokens:
         base_intro_token = "I0"
+        if hook_combo_token is None:
+            hook_combo_token = _compose_hook_combo(hook_code_raw, None)
+        hook_token = hook_combo_token or hook_token
+    elif not hook_from_file:
+        hook_token = hook_code_raw
+        base_intro_token = None
 
-    if not hook_from_file:
-        base_intro_token = "I0"
+    if not base_intro_token and not intro_segments and not implicit_intro_tokens:
+        base_intro_token = None
 
     return SequenceBaseName(
         project_slug=project_slug,
         variant_token=variant_code,
-        hook_token=hook_code,
+        hook_token=hook_token,
         base_intro_token=base_intro_token,
         hook_combo_token=hook_combo_token,
     )
@@ -159,38 +206,45 @@ def determine_sequence_base_name(project_code, primary_file, fallback_hook_idx, 
 
 def build_sequence_name(base_name, intro_idx=None, project_code=None, intro_token=None):
     if isinstance(base_name, SequenceBaseName):
-        token = intro_token
-        if token is None:
+        token_candidate = intro_token
+        if token_candidate is None:
             if intro_idx is None:
-                token = base_name.base_intro_token
+                token_candidate = base_name.base_intro_token
             else:
                 try:
-                    token = f"I{int(intro_idx)}"
+                    token_candidate = f"I{int(intro_idx)}"
                 except (TypeError, ValueError):
-                    token = base_name.base_intro_token or "I0"
-        token = normalize_intro_token(token, base_name.base_intro_token or "I0")
-        return base_name.with_intro(token)
+                    token_candidate = base_name.base_intro_token
+        return base_name.with_intro(token_candidate)
 
     fallback_project = sanitize_project_slug(project_code or "E000")
     name = (base_name or '').strip()
     if not name:
-        token = intro_token or (f"I{intro_idx}" if intro_idx is not None else "I0")
-        token = normalize_intro_token(token)
-        return f"{fallback_project}_V0H0{token}_T_EN"
+        token_candidate = intro_token
+        if token_candidate is None and intro_idx is not None:
+            token_candidate = f"I{intro_idx}"
+        token = normalize_intro_token(token_candidate)
+        core = f"{fallback_project}_V0H0"
+        if token:
+            core += token
+        return f"{core}_T_EN"
 
-    token = intro_token
-    if token is None:
+    token_candidate = intro_token
+    if token_candidate is None and intro_idx is not None:
         try:
-            intro_value = 0 if intro_idx is None else int(intro_idx)
-            token = f"I{intro_value}"
+            token_candidate = f"I{int(intro_idx)}"
         except (TypeError, ValueError):
-            token = "I0"
-    token = normalize_intro_token(token)
+            token_candidate = None
+    token = normalize_intro_token(token_candidate)
     if name.endswith('_T_EN'):
         base = INTRO_SUFFIX_PATTERN.sub('', name[:-5])
-        return f"{base}{token}_T_EN"
+        if token:
+            return f"{base}{token}_T_EN"
+        return f"{base}_T_EN"
     base = INTRO_SUFFIX_PATTERN.sub('', name)
-    return f"{base}_{token}"
+    if token:
+        return f"{base}_{token}"
+    return base
 
 
 class FileItem(tk.Frame):

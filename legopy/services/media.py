@@ -37,7 +37,7 @@ def format_for_ffmpeg_concat(path: str) -> str:
     formatted = Path(path).resolve().as_posix()
     return formatted.replace("'", "'\\''")
 
-TIP_VARIANT_PATTERN = re.compile(r"T(\d+)([a-z]?)", re.IGNORECASE)
+TIP_VARIANT_PATTERN = re.compile(r"^T(\d+)([A-Za-z]?)(.*)$")
 
 PARTS_REAL_LENGTH_SUFFIX = "_Parts_RealLength"
 SUFFIXES_FOR_PROJECT = (
@@ -57,46 +57,73 @@ def _remove_suffix_casefold(name: str, suffix: str):
 
 
 def select_preferred_tip_variants(filepaths, return_extras=False, keep_all_variants=False):
-    """Return a list filtered to the first alphabetical variant for each T id.
+    """Return a list filtered according to the Gotcha! naming rules.
 
-    When return_extras is True, also return the skipped variant files in the order they
-    appeared."""
+    When `keep_all_variants` is True, only duplicate *paths* are removed.
+    Otherwise the first alphabetical lowercase variant is preferred for each
+    Tip id while uppercase variants are kept alongside to support pairing."""
     if not filepaths:
         return ([], []) if return_extras else []
 
     if keep_all_variants:
         ordered_unique = []
-        seen = set()
+        seen_paths = set()
         for path in filepaths:
-            if path in seen:
+            if path in seen_paths:
                 continue
             ordered_unique.append(path)
-            seen.add(path)
-        if return_extras:
-            return ordered_unique, []
-        return ordered_unique
+            seen_paths.add(path)
+        return (ordered_unique, []) if return_extras else ordered_unique
 
     selected = {}
     extras = []
+
     for idx, path in enumerate(filepaths):
         base = os.path.splitext(os.path.basename(path))[0]
-        match = TIP_VARIANT_PATTERN.search(base)
+        match = TIP_VARIANT_PATTERN.match(base)
         if match:
-            key = match.group(1)
-            letter = (match.group(2) or '').lower()
+            tip_number = match.group(1)
+            variant_letter = match.group(2) or ""
+            remainder = match.group(3) or ""
+            is_upper_variant = variant_letter.isupper()
+            variant_key = (tip_number, remainder)
+            if is_upper_variant:
+                # Uppercase variants have pairing semantics; keep them all but deduplicate identical entries.
+                key = ("UPPER", tip_number, variant_letter, remainder)
+                info = selected.get(key)
+                if info is None or idx < info['index']:
+                    if info:
+                        extras.append((info['index'], info['path']))
+                    selected[key] = {'letter': variant_letter, 'path': path, 'index': idx}
+                else:
+                    extras.append((idx, path))
+                continue
         else:
-            key = base.upper()
-            letter = ''
-        info = selected.get(key)
+            tip_number = None
+            variant_letter = ""
+            remainder = ""
+            is_upper_variant = False
+            variant_key = base.upper()
+
+        if is_upper_variant:
+            continue  # already handled above
+
+        info = selected.get(variant_key)
+        letter_cmp = variant_letter or ""
         if info is None:
-            selected[key] = {'letter': letter, 'path': path, 'index': idx}
+            selected[variant_key] = {'letter': letter_cmp, 'path': path, 'index': idx}
             continue
-        should_replace = letter < info['letter'] or (letter == info['letter'] and idx < info['index'])
+
+        should_replace = (
+            letter_cmp < info['letter']
+            or (letter_cmp == info['letter'] and idx < info['index'])
+        )
         if should_replace:
             extras.append((info['index'], info['path']))
-            selected[key] = {'letter': letter, 'path': path, 'index': idx}
+            selected[variant_key] = {'letter': letter_cmp, 'path': path, 'index': idx}
         else:
             extras.append((idx, path))
+
     ordered = sorted(selected.values(), key=lambda item: item['index'])
     preferred = [item['path'] for item in ordered]
     if return_extras:
