@@ -37,7 +37,7 @@ def format_for_ffmpeg_concat(path: str) -> str:
     formatted = Path(path).resolve().as_posix()
     return formatted.replace("'", "'\\''")
 
-TIP_VARIANT_PATTERN = re.compile(r"^T(\d+)([A-Za-z]?)(.*)$")
+TIP_VARIANT_PATTERN = re.compile(r"T\d+(?:\.[A-Za-z0-9]+)*[A-Za-z]?", re.IGNORECASE)
 
 PARTS_REAL_LENGTH_SUFFIX = "_Parts_RealLength"
 SUFFIXES_FOR_PROJECT = (
@@ -80,16 +80,23 @@ def select_preferred_tip_variants(filepaths, return_extras=False, keep_all_varia
 
     for idx, path in enumerate(filepaths):
         base = os.path.splitext(os.path.basename(path))[0]
-        match = TIP_VARIANT_PATTERN.match(base)
+        match = TIP_VARIANT_PATTERN.search(base)
         if match:
-            tip_number = match.group(1)
-            variant_letter = match.group(2) or ""
-            remainder = match.group(3) or ""
+            tip_token = match.group(0)
+            number_match = re.match(r"T(\d+)", tip_token, re.IGNORECASE)
+            tip_number = number_match.group(1) if number_match else None
+            suffix = tip_token[1 + len(tip_number or ""):]
+            variant_letter = ""
+            if suffix:
+                first_char = suffix[0]
+                if first_char.isalpha():
+                    variant_letter = first_char
+            remainder = base[match.end():] or ""
             is_upper_variant = variant_letter.isupper()
             variant_key = (tip_number, remainder)
             if is_upper_variant:
                 # Uppercase variants have pairing semantics; keep them all but deduplicate identical entries.
-                key = ("UPPER", tip_number, variant_letter, remainder)
+                key = ("UPPER", tip_number, variant_letter, remainder, suffix)
                 info = selected.get(key)
                 if info is None or idx < info['index']:
                     if info:

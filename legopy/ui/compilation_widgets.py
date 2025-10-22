@@ -20,7 +20,7 @@ from legopy.services.media import (
 H_SEGMENT_PATTERN = re.compile(r"H(\d+[a-z]?|\([^)]*\)|[A-Za-z0-9+]+)", re.IGNORECASE)
 VARIANT_SEGMENT_PATTERN = re.compile(r"V(\d+[A-Za-z]?)", re.IGNORECASE)
 SEGMENT_PATTERN = re.compile(
-    r"([VHI](?:\([^)]*\)|[A-Za-z0-9]+(?:\+[A-Za-z0-9]+)*))",
+    r"([VHIT](?:\([^)]*\)|[A-Za-z0-9.]+(?:\+[A-Za-z0-9.]+)*))",
     re.IGNORECASE,
 )
 INTRO_SUFFIX_PATTERN = re.compile(r"I(?:\([^)]*\)|[A-Za-z0-9]+)$", re.IGNORECASE)
@@ -98,7 +98,7 @@ def normalize_intro_token(token, fallback=None):
 
 
 def _extract_segments(base_name):
-    segments = {"V": [], "H": [], "I": []}
+    segments = {"V": [], "H": [], "I": [], "T": []}
     for segment in SEGMENT_PATTERN.findall(base_name or ""):
         key = segment[0].upper()
         normalized = f"{key}{segment[1:]}"
@@ -116,6 +116,10 @@ def infer_intro_token(intro_path, fallback_idx=None):
     intro_segments = segments.get("I") or []
     if intro_segments:
         return normalize_intro_token(intro_segments[0])
+    tip_segments = segments.get("T") or []
+    if tip_segments:
+        derived_intro = f"I({tip_segments[0]})"
+        return normalize_intro_token(derived_intro)
     if fallback_idx is None:
         return None
     return normalize_intro_token(None, f"I{fallback_idx}")
@@ -161,10 +165,12 @@ def determine_sequence_base_name(project_code, primary_file, fallback_hook_idx, 
     variant_raw = None
     hook_raw = None
     intro_segments = []
+    tip_segments = []
     if segments:
         variant_entries = segments.get("V") or []
         hook_entries = segments.get("H") or []
         intro_segments = segments.get("I") or []
+        tip_segments = segments.get("T") or []
         variant_raw = variant_entries[0] if variant_entries else None
         hook_raw = hook_entries[0] if hook_entries else None
 
@@ -191,6 +197,11 @@ def determine_sequence_base_name(project_code, primary_file, fallback_hook_idx, 
     elif not hook_from_file:
         hook_token = hook_code_raw
         base_intro_token = None
+
+    if not hook_from_file and tip_segments:
+        derived_hook = f"H({tip_segments[0]})"
+        hook_token = derived_hook
+        hook_combo_token = derived_hook
 
     if not base_intro_token and not intro_segments and not implicit_intro_tokens:
         base_intro_token = None
@@ -726,9 +737,15 @@ class SequenceCompilationsManager:
 
         def add_sequence_variants(base_name, tip_files, hook_file=None):
             tip_list = list(tip_files)
+            default_intro_token = None
+            if intro_entries:
+                if isinstance(base_name, SequenceBaseName):
+                    default_intro_token = base_name.base_intro_token or "I0"
+                else:
+                    default_intro_token = "I0"
             if hook_file:
                 base_sequence = [hook_file] + tip_list
-                append_sequence(self._build_sequence_name(base_name, None), base_sequence)
+                append_sequence(self._build_sequence_name(base_name, None, intro_token=default_intro_token), base_sequence)
                 for intro_idx, intro_path, intro_token in intro_entries:
                     sequence_files = [hook_file, intro_path] + tip_list
                     append_sequence(
@@ -737,7 +754,7 @@ class SequenceCompilationsManager:
                     )
             else:
                 base_sequence = list(tip_list)
-                append_sequence(self._build_sequence_name(base_name, None), base_sequence)
+                append_sequence(self._build_sequence_name(base_name, None, intro_token=default_intro_token), base_sequence)
                 for intro_idx, intro_path, intro_token in intro_entries:
                     sequence_files = [intro_path] + tip_list
                     append_sequence(
