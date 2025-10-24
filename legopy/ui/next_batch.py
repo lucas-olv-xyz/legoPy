@@ -441,7 +441,13 @@ class NextBatchFrame(ttk.Frame):
                 base_files = list(base_comp.files)
                 if not base_files:
                     continue
-                base_name = determine_sequence_base_name(project_code, hook_abs, fallback_hook_idx=hook_idx, variant_idx=idx)
+                base_name = determine_sequence_base_name(
+                    project_code,
+                    hook_abs,
+                    fallback_hook_idx=hook_idx,
+                    variant_idx=idx,
+                    promote_tip_to_hook=True,
+                )
                 frame_name = build_sequence_name(base_name, None, project_code)
                 files = [hook_abs] + base_files
                 cf = ManualCompilationFrame(
@@ -600,6 +606,7 @@ class NextBatchFrame(ttk.Frame):
                 hook_abs,
                 fallback_hook_idx=getattr(frame, 'hook_index', 0),
                 variant_idx=getattr(frame, 'variant_index', 0),
+                promote_tip_to_hook=True,
             )
             name_override = (frame.get_name() or "").strip()
             if name_override:

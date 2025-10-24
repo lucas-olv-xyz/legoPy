@@ -8,12 +8,55 @@ from tkinter import ttk, messagebox, filedialog
 import tkinter as tk
 import threading
 import os
-from legopy.services.media import select_preferred_tip_variants, export_clip_to_2min
+import re
+from legopy.services.media import (
+    select_preferred_tip_variants,
+    export_clip_to_2min,
+    TIP_VARIANT_PATTERN,
+)
 
 def format_first_file_duration(duration):
     m = int(duration // 60)
     s = int(duration % 60)
     return f"{m:02d}'{s:02d}"
+
+
+def _extract_tip_variant_info(path):
+    base = os.path.splitext(os.path.basename(path))[0]
+    match = TIP_VARIANT_PATTERN.search(base)
+    if not match:
+        return None, ""
+    tip_token = match.group(0)
+    number_match = re.match(r"T(\d+)", tip_token, re.IGNORECASE)
+    tip_number = number_match.group(1) if number_match else None
+    suffix = tip_token[1 + len(tip_number or ""):]
+    variant_letter = ""
+    if suffix:
+        first_char = suffix[0]
+        if first_char.isalpha():
+            variant_letter = first_char
+    remainder = base[match.end():] or ""
+    key = (tip_number, remainder.upper())
+    return key, variant_letter
+
+
+def _dedupe_lowercase_tip_variants(paths):
+    seen_keys = set()
+    deduped = []
+    for path in paths:
+        key, variant_letter = _extract_tip_variant_info(path)
+        if key:
+            if not variant_letter:
+                if key in seen_keys:
+                    continue
+                seen_keys.add(key)
+            elif variant_letter.islower():
+                if key in seen_keys:
+                    continue
+                seen_keys.add(key)
+        deduped.append(path)
+    return deduped
+
 
 class FirstBatchFrame(ttk.Frame):
     def __init__(self, parent, back_callback, get_project_code):
@@ -155,6 +198,7 @@ class FirstBatchFrame(ttk.Frame):
         n = len(filtered_paths)
         for i in range(n):
             rotated = filtered_paths[i:] + filtered_paths[:i]
+            rotated = _dedupe_lowercase_tip_variants(rotated)
             comp = CompilationFrame(
                 self.container_tips.scrollable_frame, i,
                 on_delete_callback=self.remove_tips_compilation,

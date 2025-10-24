@@ -120,6 +120,10 @@ def infer_intro_token(intro_path, fallback_idx=None):
     if tip_segments:
         derived_intro = f"I({tip_segments[0]})"
         return normalize_intro_token(derived_intro)
+    hook_segments = segments.get("H") or []
+    if hook_segments:
+        derived_intro = f"I({hook_segments[0]})"
+        return normalize_intro_token(derived_intro)
     if fallback_idx is None:
         return None
     return normalize_intro_token(None, f"I{fallback_idx}")
@@ -151,7 +155,14 @@ class SequenceBaseName:
         return self.as_string()
 
 
-def determine_sequence_base_name(project_code, primary_file, fallback_hook_idx, variant_idx=0):
+def determine_sequence_base_name(
+    project_code,
+    primary_file,
+    fallback_hook_idx,
+    variant_idx=0,
+    *,
+    promote_tip_to_hook=False,
+):
     project_slug = infer_project_prefix(primary_file, project_code)
     if project_code:
         project_slug = project_code
@@ -197,14 +208,15 @@ def determine_sequence_base_name(project_code, primary_file, fallback_hook_idx, 
     elif not hook_from_file:
         hook_token = hook_code_raw
         base_intro_token = None
-
-    if not hook_from_file and tip_segments:
-        derived_hook = f"H({tip_segments[0]})"
-        hook_token = derived_hook
-        hook_combo_token = derived_hook
-
-    if not base_intro_token and not intro_segments and not implicit_intro_tokens:
-        base_intro_token = None
+        if promote_tip_to_hook:
+            if tip_segments:
+                derived_hook = f"H({tip_segments[0]})"
+                hook_token = derived_hook
+                hook_combo_token = derived_hook
+            elif intro_segments:
+                derived_hook = f"H({intro_segments[0]})"
+                hook_token = derived_hook
+                hook_combo_token = derived_hook
 
     return SequenceBaseName(
         project_slug=project_slug,
@@ -633,9 +645,15 @@ class SequenceCompilationsManager:
         self.btn_export_sequences = ttk.Button(export_frame, text="Export Sequence Compilations", command=self.export_sequences, style='Accent.TButton')
         self.btn_export_sequences.pack(anchor="center", fill="x")
 
-    def _determine_sequence_base_name(self, primary_file, fallback_hook_idx, variant_idx=0):
+    def _determine_sequence_base_name(self, primary_file, fallback_hook_idx, variant_idx=0, promote_tip_to_hook=False):
         project_code = self.get_project_code()
-        return determine_sequence_base_name(project_code, primary_file, fallback_hook_idx, variant_idx)
+        return determine_sequence_base_name(
+            project_code,
+            primary_file,
+            fallback_hook_idx,
+            variant_idx,
+            promote_tip_to_hook=promote_tip_to_hook,
+        )
 
 
 
@@ -770,7 +788,11 @@ class SequenceCompilationsManager:
             if not hook_comp.files:
                 continue
             hook_primary = hook_comp.files[0]
-            sequence_name = self._determine_sequence_base_name(hook_primary, fallback_hook_idx=idx)
+            sequence_name = self._determine_sequence_base_name(
+                hook_primary,
+                fallback_hook_idx=idx,
+                promote_tip_to_hook=True,
+            )
             add_sequence_variants(sequence_name, base_tip_files, hook_file=hook_primary)
 
 
