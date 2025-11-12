@@ -1,5 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+import sys
 
 a = Analysis(
     ['main.py'],
@@ -16,12 +17,7 @@ a = Analysis(
 )
 pyz = PYZ(a.pure)
 
-exe = EXE(
-    pyz,
-    a.scripts,
-    a.binaries,
-    a.datas,
-    [],
+common_exe_kwargs = dict(
     name='LegoPy',
     debug=False,
     bootloader_ignore_signals=False,
@@ -37,3 +33,26 @@ exe = EXE(
     entitlements_file=None,
     icon=['bored.ico'],
 )
+
+exe = EXE(
+    pyz,
+    a.scripts,
+    a.binaries,
+    a.datas,
+    [],
+    **common_exe_kwargs,
+)
+
+if sys.platform == 'darwin':
+    app = BUNDLE(
+        exe,
+        name='LegoPy.app',
+        icon='bored.ico',
+        bundle_identifier='com.lego.py',
+        info_plist={
+            'CFBundleName': 'LegoPy',
+            'CFBundleShortVersionString': '1.0.0',
+            'CFBundleVersion': '1.0.0',
+            'NSHighResolutionCapable': True,
+        },
+    )
