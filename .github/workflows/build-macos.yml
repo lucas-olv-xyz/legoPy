@@ -1,0 +1,39 @@
+name: Build macOS App
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macos-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install build deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+
+      - name: Build with PyInstaller
+        run: pyinstaller LegoPy.spec --noconfirm --clean
+
+      - name: Upload LegoPy bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: LegoPy-macOS
+          path: dist/LegoPy
+          if-no-files-found: error
+          retention-days: 14
