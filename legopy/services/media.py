@@ -5,6 +5,7 @@ import sys
 import subprocess
 import shutil
 import re
+import stat
 from pathlib import Path
 
 
@@ -21,15 +22,47 @@ def resource_path(relative_path):
 def _resolve_ffmpeg_binary(binary_name):
     exe = f"{binary_name}.exe" if os.name == "nt" else binary_name
     env_override = os.environ.get(f"{binary_name.upper()}_PATH")
-    if env_override and Path(env_override).is_file():
-        return str(Path(env_override))
+    if env_override:
+        env_path = Path(env_override)
+        if env_path.is_file():
+            return _ensure_executable(env_path, allow_fix=False)
     bundle_candidate = _application_root() / "ffmpeg-bin" / exe
     if bundle_candidate.is_file():
-        return str(bundle_candidate)
+        return _ensure_executable(bundle_candidate)
     system_candidate = shutil.which(exe)
     if system_candidate:
-        return system_candidate
+        return _ensure_executable(system_candidate, allow_fix=False)
     raise FileNotFoundError(f"{exe} not found. Expected it at {bundle_candidate}")
+
+
+def _ensure_executable(binary_path, allow_fix=True):
+    """Make sure the bundled FFmpeg binary has execute permission on POSIX."""
+    binary_path = Path(binary_path)
+    candidate = str(binary_path)
+    if os.name == "nt":
+        return candidate
+    if os.access(candidate, os.X_OK):
+        return candidate
+    if not allow_fix:
+        raise PermissionError(
+            f"{candidate} is not executable. Run 'chmod +x \"{candidate}\"' or "
+            "choose another FFmpeg binary with execute permission."
+        )
+    try:
+        current_mode = binary_path.stat().st_mode
+        new_mode = current_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
+        os.chmod(candidate, new_mode)
+    except OSError as exc:
+        raise PermissionError(
+            f"Could not set execute permission on {candidate}. "
+            "Run 'chmod +x' manually or provide an external FFmpeg binary."
+        ) from exc
+    if not os.access(candidate, os.X_OK):
+        raise PermissionError(
+            f"{candidate} is not executable even after chmod. "
+            "Run 'chmod +x' manually or provide an external FFmpeg binary."
+        )
+    return candidate
 
 
 
